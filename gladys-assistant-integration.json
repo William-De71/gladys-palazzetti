@@ -1,0 +1,1437 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "Palazzetti",
+  "description": {
+    "en": "Control your Palazzetti pellet stove locally, through its Connection Box.",
+    "fr": "Pilotez votre poêle à pellets Palazzetti en local, via sa Connection Box.",
+    "de": "Steuern Sie Ihren Palazzetti-Pelletofen lokal über seine Connection Box.",
+    "es": "Controle su estufa de pellets Palazzetti en local, mediante su Connection Box."
+  },
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/william-de71/gladys-palazzetti:0.1.0",
+  "gladys_version": ">=5.1.1",
+  "categories": ["climate"],
+  "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/cover.jpg",
+  "transports": ["local"],
+  "network_discovery": [
+    {
+      "type": "udp-active-broadcast",
+      "ports": [54549]
+    }
+  ],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "Getting started",
+        "fr": "Pour commencer",
+        "de": "Erste Schritte",
+        "es": "Primeros pasos"
+      },
+      "description": {
+        "en": "Your stove needs a Palazzetti Connection Box (or a WPalaControl module) on your local network: the integration talks to it directly, without the Palazzetti cloud. Go to the Discover tab and run a scan: the boxes answering on your network appear there, ready to be added. If yours is not found (another VLAN, broadcast filtered), enter its IP address below. Give the box a fixed IP address in your router if you can.",
+        "fr": "Votre poêle doit être équipé d’une Connection Box Palazzetti (ou d’un module WPalaControl) sur votre réseau local : l’intégration lui parle directement, sans passer par le cloud Palazzetti. Allez dans l’onglet Découverte et lancez une recherche : les boîtiers qui répondent sur votre réseau y apparaissent, prêts à être ajoutés. Si le vôtre n’est pas trouvé (autre VLAN, broadcast filtré), saisissez son adresse IP ci-dessous. Si possible, donnez-lui une adresse IP fixe dans votre box internet.",
+        "de": "Ihr Ofen benötigt eine Palazzetti Connection Box (oder ein WPalaControl-Modul) in Ihrem lokalen Netzwerk: Die Integration spricht direkt mit ihr, ohne die Palazzetti-Cloud. Öffnen Sie den Reiter „Entdecken“ und starten Sie eine Suche: Die Boxen, die in Ihrem Netzwerk antworten, erscheinen dort und können hinzugefügt werden. Wird Ihre nicht gefunden (anderes VLAN, gefilterter Broadcast), geben Sie unten ihre IP-Adresse ein. Geben Sie der Box nach Möglichkeit eine feste IP-Adresse in Ihrem Router.",
+        "es": "Su estufa necesita una Connection Box de Palazzetti (o un módulo WPalaControl) en su red local: la integración se comunica directamente con ella, sin pasar por la nube de Palazzetti. Vaya a la pestaña Descubrir e inicie una búsqueda: las cajas que responden en su red aparecen allí, listas para añadirse. Si no se encuentra la suya (otra VLAN, broadcast filtrado), introduzca su dirección IP a continuación. Si puede, asígnele una dirección IP fija en su router."
+      },
+      "links": [
+        {
+          "url": "https://github.com/William-De71/gladys-palazzetti#readme",
+          "label": {
+            "en": "Integration documentation",
+            "fr": "Documentation de l’intégration",
+            "de": "Dokumentation der Integration",
+            "es": "Documentación de la integración"
+          }
+        }
+      ]
+    },
+    {
+      "key": "hosts",
+      "type": "string",
+      "label": {
+        "en": "Connection Box addresses",
+        "fr": "Adresses des Connection Box",
+        "de": "Adressen der Connection Box",
+        "es": "Direcciones de las Connection Box"
+      },
+      "description": {
+        "en": "Only if the scan does not find your stove: IP addresses separated by commas.",
+        "fr": "Uniquement si la recherche ne trouve pas votre poêle : adresses IP séparées par des virgules.",
+        "de": "Nur wenn die Suche Ihren Ofen nicht findet: IP-Adressen durch Kommas getrennt.",
+        "es": "Solo si la búsqueda no encuentra su estufa: direcciones IP separadas por comas."
+      },
+      "placeholder": {
+        "en": "192.168.1.40",
+        "fr": "192.168.1.40",
+        "de": "192.168.1.40",
+        "es": "192.168.1.40"
+      },
+      "required": false
+    },
+    {
+      "key": "poll_interval",
+      "type": "number",
+      "label": {
+        "en": "Refresh interval (s)",
+        "fr": "Intervalle de lecture (s)",
+        "de": "Abfrageintervall (s)",
+        "es": "Intervalo de lectura (s)"
+      },
+      "description": {
+        "en": "How often each stove is read, between 10 and 300 seconds. The box pushes nothing: this is the delay of the scenes.",
+        "fr": "Fréquence de lecture de chaque poêle, entre 10 et 300 secondes. Le boîtier ne pousse rien : c’est le délai de réaction des scènes.",
+        "de": "Wie oft jeder Ofen gelesen wird, zwischen 10 und 300 Sekunden. Die Box sendet nichts von sich aus: Das ist die Reaktionszeit der Szenen.",
+        "es": "Frecuencia de lectura de cada estufa, entre 10 y 300 segundos. La caja no envía nada por sí sola: es el retardo de las escenas."
+      },
+      "min": 10,
+      "max": 300,
+      "default": 30,
+      "required": false
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "description": {
+        "en": "Looks for the boxes on the network and reads every stove.",
+        "fr": "Recherche les boîtiers sur le réseau et lit chaque poêle.",
+        "de": "Sucht die Boxen im Netzwerk und liest jeden Ofen.",
+        "es": "Busca las cajas en la red y lee cada estufa."
+      },
+      "timeout_seconds": 90
+    },
+    {
+      "key": "sync_clock",
+      "label": {
+        "en": "Set the stove clock",
+        "fr": "Mettre à l’heure le poêle",
+        "de": "Ofenuhr stellen",
+        "es": "Poner en hora la estufa"
+      },
+      "description": {
+        "en": "Sets the clock of the stove (used by its weekly schedule) to the time of Gladys, after a power cut or a time change.",
+        "fr": "Règle l’horloge du poêle (utilisée par sa programmation horaire) sur l’heure de Gladys, après une coupure de courant ou un changement d’heure.",
+        "de": "Stellt die Uhr des Ofens (für sein Wochenprogramm) auf die Zeit von Gladys, nach einem Stromausfall oder einer Zeitumstellung.",
+        "es": "Ajusta el reloj de la estufa (usado por su programación) a la hora de Gladys, tras un corte de luz o un cambio de hora."
+      },
+      "timeout_seconds": 60,
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for every stove.",
+            "fr": "Laissez vide pour tous les poêles.",
+            "de": "Leer lassen für alle Öfen.",
+            "es": "Déjelo vacío para todas las estufas."
+          },
+          "required": false
+        }
+      ]
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "phase_changed",
+      "label": {
+        "en": "Palazzetti: stove state changed",
+        "fr": "Palazzetti : changement d’état du poêle",
+        "de": "Palazzetti: Ofenzustand geändert",
+        "es": "Palazzetti: cambio de estado de la estufa"
+      },
+      "description": {
+        "en": "The stove starts igniting, heats, goes to eco standby, shuts down… Checked every 30 seconds by default.",
+        "fr": "Le poêle s’allume, chauffe, passe en veille éco, s’éteint… Vérifié toutes les 30 secondes par défaut.",
+        "de": "Der Ofen zündet, heizt, geht in Eco-Bereitschaft, schaltet ab… Standardmäßig alle 30 Sekunden geprüft.",
+        "es": "La estufa se enciende, calienta, pasa a espera eco, se apaga… Comprobado cada 30 segundos por defecto."
+      },
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for any stove.",
+            "fr": "Laissez vide pour tous les poêles.",
+            "de": "Leer lassen für jeden Ofen.",
+            "es": "Déjelo vacío para cualquier estufa."
+          },
+          "required": false
+        },
+        {
+          "key": "phase",
+          "type": "multi_select",
+          "label": {
+            "en": "New state",
+            "fr": "Nouvel état",
+            "de": "Neuer Zustand",
+            "es": "Nuevo estado"
+          },
+          "description": {
+            "en": "Leave empty for any change.",
+            "fr": "Laissez vide pour tout changement.",
+            "de": "Leer lassen für jede Änderung.",
+            "es": "Déjelo vacío para cualquier cambio."
+          },
+          "options": [
+            {
+              "value": "off",
+              "label": {
+                "en": "Off",
+                "fr": "Éteint",
+                "de": "Aus",
+                "es": "Apagada"
+              }
+            },
+            {
+              "value": "ignition",
+              "label": {
+                "en": "Igniting",
+                "fr": "Allumage",
+                "de": "Zündung",
+                "es": "Encendiendo"
+              }
+            },
+            {
+              "value": "heating",
+              "label": {
+                "en": "Heating",
+                "fr": "En chauffe",
+                "de": "Heizt",
+                "es": "Calentando"
+              }
+            },
+            {
+              "value": "eco",
+              "label": {
+                "en": "Eco standby",
+                "fr": "Veille éco",
+                "de": "Eco-Bereitschaft",
+                "es": "Espera eco"
+              }
+            },
+            {
+              "value": "cooling",
+              "label": {
+                "en": "Shutting down",
+                "fr": "Extinction",
+                "de": "Abschaltung",
+                "es": "Apagándose"
+              }
+            },
+            {
+              "value": "cleaning",
+              "label": {
+                "en": "Final cleaning",
+                "fr": "Nettoyage final",
+                "de": "Endreinigung",
+                "es": "Limpieza final"
+              }
+            },
+            {
+              "value": "alarm",
+              "label": {
+                "en": "Alarm",
+                "fr": "Alarme",
+                "de": "Alarm",
+                "es": "Alarma"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "stove_name",
+          "type": "string",
+          "label": {
+            "en": "Stove name",
+            "fr": "Nom du poêle",
+            "de": "Name des Ofens",
+            "es": "Nombre de la estufa"
+          }
+        },
+        {
+          "key": "phase",
+          "type": "string",
+          "label": {
+            "en": "New state (code)",
+            "fr": "Nouvel état (code)",
+            "de": "Neuer Zustand (Code)",
+            "es": "Nuevo estado (código)"
+          }
+        },
+        {
+          "key": "previous_phase",
+          "type": "string",
+          "label": {
+            "en": "Previous state (code)",
+            "fr": "État précédent (code)",
+            "de": "Vorheriger Zustand (Code)",
+            "es": "Estado anterior (código)"
+          }
+        },
+        {
+          "key": "phase_label",
+          "type": "string",
+          "label": {
+            "en": "New state",
+            "fr": "Nouvel état",
+            "de": "Neuer Zustand",
+            "es": "Nuevo estado"
+          }
+        },
+        {
+          "key": "status_label",
+          "type": "string",
+          "label": {
+            "en": "Detailed status",
+            "fr": "État détaillé",
+            "de": "Detaillierter Status",
+            "es": "Estado detallado"
+          }
+        },
+        {
+          "key": "status_code",
+          "type": "number",
+          "label": {
+            "en": "Status code",
+            "fr": "Code d’état",
+            "de": "Statuscode",
+            "es": "Código de estado"
+          }
+        },
+        {
+          "key": "temperature",
+          "type": "number",
+          "label": {
+            "en": "Temperature (°C)",
+            "fr": "Température (°C)",
+            "de": "Temperatur (°C)",
+            "es": "Temperatura (°C)"
+          }
+        },
+        {
+          "key": "setpoint",
+          "type": "number",
+          "label": {
+            "en": "Setpoint (°C)",
+            "fr": "Consigne (°C)",
+            "de": "Solltemperatur (°C)",
+            "es": "Consigna (°C)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein Satz, bereit für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "alarm_raised",
+      "label": {
+        "en": "Palazzetti: alarm",
+        "fr": "Palazzetti : alarme",
+        "de": "Palazzetti: Alarm",
+        "es": "Palazzetti: alarma"
+      },
+      "description": {
+        "en": "The stove reports an alarm: out of pellets, door open, overheating…",
+        "fr": "Le poêle signale une alarme : plus de pellets, porte ouverte, surchauffe…",
+        "de": "Der Ofen meldet einen Alarm: keine Pellets, Tür offen, Überhitzung…",
+        "es": "La estufa indica una alarma: sin pellets, puerta abierta, sobrecalentamiento…"
+      },
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for any stove.",
+            "fr": "Laissez vide pour tous les poêles.",
+            "de": "Leer lassen für jeden Ofen.",
+            "es": "Déjelo vacío para cualquier estufa."
+          },
+          "required": false
+        },
+        {
+          "key": "alarm_type",
+          "type": "multi_select",
+          "label": {
+            "en": "Alarm type",
+            "fr": "Type d’alarme",
+            "de": "Alarmtyp",
+            "es": "Tipo de alarma"
+          },
+          "description": {
+            "en": "Leave empty for any alarm.",
+            "fr": "Laissez vide pour toute alarme.",
+            "de": "Leer lassen für jeden Alarm.",
+            "es": "Déjelo vacío para cualquier alarma."
+          },
+          "options": [
+            {
+              "value": "pellet",
+              "label": {
+                "en": "Out of pellets",
+                "fr": "Plus de pellets",
+                "de": "Keine Pellets",
+                "es": "Sin pellets"
+              }
+            },
+            {
+              "value": "door",
+              "label": {
+                "en": "Door or hatch open",
+                "fr": "Porte ou trappe ouverte",
+                "de": "Tür oder Klappe offen",
+                "es": "Puerta o trampilla abierta"
+              }
+            },
+            {
+              "value": "overheat",
+              "label": {
+                "en": "Overheating",
+                "fr": "Surchauffe",
+                "de": "Überhitzung",
+                "es": "Sobrecalentamiento"
+              }
+            },
+            {
+              "value": "flue",
+              "label": {
+                "en": "Draught / pressure",
+                "fr": "Tirage / dépression",
+                "de": "Zug / Unterdruck",
+                "es": "Tiro / depresión"
+              }
+            },
+            {
+              "value": "cleaning",
+              "label": {
+                "en": "Chimney cleaning",
+                "fr": "Nettoyage du conduit",
+                "de": "Rauchrohrreinigung",
+                "es": "Limpieza de la chimenea"
+              }
+            },
+            {
+              "value": "probe",
+              "label": {
+                "en": "Probe fault",
+                "fr": "Défaut de sonde",
+                "de": "Fühlerfehler",
+                "es": "Fallo de sonda"
+              }
+            },
+            {
+              "value": "fuel",
+              "label": {
+                "en": "Grate / fuel error",
+                "fr": "Défaut grille / alimentation",
+                "de": "Rost- / Zufuhrfehler",
+                "es": "Fallo de rejilla / alimentación"
+              }
+            },
+            {
+              "value": "other",
+              "label": {
+                "en": "Other error",
+                "fr": "Autre erreur",
+                "de": "Anderer Fehler",
+                "es": "Otro error"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "stove_name",
+          "type": "string",
+          "label": {
+            "en": "Stove name",
+            "fr": "Nom du poêle",
+            "de": "Name des Ofens",
+            "es": "Nombre de la estufa"
+          }
+        },
+        {
+          "key": "alarm_label",
+          "type": "string",
+          "label": {
+            "en": "Alarm",
+            "fr": "Alarme",
+            "de": "Alarm",
+            "es": "Alarma"
+          }
+        },
+        {
+          "key": "alarm_type",
+          "type": "string",
+          "label": {
+            "en": "Alarm type (code)",
+            "fr": "Type d’alarme (code)",
+            "de": "Alarmtyp (Code)",
+            "es": "Tipo de alarma (código)"
+          }
+        },
+        {
+          "key": "alarm_code",
+          "type": "number",
+          "label": {
+            "en": "Alarm code",
+            "fr": "Code d’alarme",
+            "de": "Alarmcode",
+            "es": "Código de alarma"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein Satz, bereit für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "alarm_cleared",
+      "label": {
+        "en": "Palazzetti: alarm cleared",
+        "fr": "Palazzetti : fin d’alarme",
+        "de": "Palazzetti: Alarm behoben",
+        "es": "Palazzetti: fin de alarma"
+      },
+      "description": {
+        "en": "The stove is no longer in alarm.",
+        "fr": "Le poêle n’est plus en alarme.",
+        "de": "Der Ofen ist nicht mehr im Alarm.",
+        "es": "La estufa ya no está en alarma."
+      },
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for any stove.",
+            "fr": "Laissez vide pour tous les poêles.",
+            "de": "Leer lassen für jeden Ofen.",
+            "es": "Déjelo vacío para cualquier estufa."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "stove_name",
+          "type": "string",
+          "label": {
+            "en": "Stove name",
+            "fr": "Nom du poêle",
+            "de": "Name des Ofens",
+            "es": "Nombre de la estufa"
+          }
+        },
+        {
+          "key": "alarm_label",
+          "type": "string",
+          "label": {
+            "en": "Former alarm",
+            "fr": "Alarme levée",
+            "de": "Behobener Alarm",
+            "es": "Alarma anterior"
+          }
+        },
+        {
+          "key": "alarm_code",
+          "type": "number",
+          "label": {
+            "en": "Alarm code",
+            "fr": "Code d’alarme",
+            "de": "Alarmcode",
+            "es": "Código de alarma"
+          }
+        },
+        {
+          "key": "phase",
+          "type": "string",
+          "label": {
+            "en": "New state (code)",
+            "fr": "Nouvel état (code)",
+            "de": "Neuer Zustand (Code)",
+            "es": "Nuevo estado (código)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein Satz, bereit für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "pellets_low",
+      "label": {
+        "en": "Palazzetti: pellets running low",
+        "fr": "Palazzetti : pellets bientôt vides",
+        "de": "Palazzetti: Pellets gehen aus",
+        "es": "Palazzetti: quedan pocos pellets"
+      },
+      "description": {
+        "en": "The pellet sensor of the hopper reports a low level. Only for stoves with a level sensor.",
+        "fr": "Le capteur du réservoir signale un niveau bas. Uniquement pour les poêles équipés d’un capteur de niveau.",
+        "de": "Der Füllstandssensor des Behälters meldet einen niedrigen Stand. Nur für Öfen mit Füllstandssensor.",
+        "es": "El sensor del depósito indica un nivel bajo. Solo para estufas con sensor de nivel."
+      },
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for any stove.",
+            "fr": "Laissez vide pour tous les poêles.",
+            "de": "Leer lassen für jeden Ofen.",
+            "es": "Déjelo vacío para cualquier estufa."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "stove_name",
+          "type": "string",
+          "label": {
+            "en": "Stove name",
+            "fr": "Nom du poêle",
+            "de": "Name des Ofens",
+            "es": "Nombre de la estufa"
+          }
+        },
+        {
+          "key": "pellet_level",
+          "type": "number",
+          "label": {
+            "en": "Pellet level (cm)",
+            "fr": "Niveau de pellets (cm)",
+            "de": "Pelletfüllstand (cm)",
+            "es": "Nivel de pellets (cm)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein Satz, bereit für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "connection_lost",
+      "label": {
+        "en": "Palazzetti: stove unreachable",
+        "fr": "Palazzetti : poêle injoignable",
+        "de": "Palazzetti: Ofen nicht erreichbar",
+        "es": "Palazzetti: estufa inaccesible"
+      },
+      "description": {
+        "en": "The Connection Box has not answered three reads in a row.",
+        "fr": "La Connection Box n’a pas répondu à trois lectures de suite.",
+        "de": "Die Connection Box hat dreimal hintereinander nicht geantwortet.",
+        "es": "La Connection Box no ha respondido a tres lecturas seguidas."
+      },
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for any stove.",
+            "fr": "Laissez vide pour tous les poêles.",
+            "de": "Leer lassen für jeden Ofen.",
+            "es": "Déjelo vacío para cualquier estufa."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "stove_name",
+          "type": "string",
+          "label": {
+            "en": "Stove name",
+            "fr": "Nom du poêle",
+            "de": "Name des Ofens",
+            "es": "Nombre de la estufa"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein Satz, bereit für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "connection_restored",
+      "label": {
+        "en": "Palazzetti: stove reachable again",
+        "fr": "Palazzetti : poêle de nouveau joignable",
+        "de": "Palazzetti: Ofen wieder erreichbar",
+        "es": "Palazzetti: estufa accesible de nuevo"
+      },
+      "description": {
+        "en": "The Connection Box answers again after being unreachable.",
+        "fr": "La Connection Box répond de nouveau après avoir été injoignable.",
+        "de": "Die Connection Box antwortet wieder, nachdem sie nicht erreichbar war.",
+        "es": "La Connection Box vuelve a responder tras estar inaccesible."
+      },
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for any stove.",
+            "fr": "Laissez vide pour tous les poêles.",
+            "de": "Leer lassen für jeden Ofen.",
+            "es": "Déjelo vacío para cualquier estufa."
+          },
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "stove_name",
+          "type": "string",
+          "label": {
+            "en": "Stove name",
+            "fr": "Nom du poêle",
+            "de": "Name des Ofens",
+            "es": "Nombre de la estufa"
+          }
+        },
+        {
+          "key": "phase",
+          "type": "string",
+          "label": {
+            "en": "State (code)",
+            "fr": "État (code)",
+            "de": "Zustand (Code)",
+            "es": "Estado (código)"
+          }
+        },
+        {
+          "key": "temperature",
+          "type": "number",
+          "label": {
+            "en": "Temperature (°C)",
+            "fr": "Température (°C)",
+            "de": "Temperatur (°C)",
+            "es": "Temperatura (°C)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein Satz, bereit für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "get_status",
+      "label": {
+        "en": "Palazzetti: read the stove",
+        "fr": "Palazzetti : lire le poêle",
+        "de": "Palazzetti: Ofen lesen",
+        "es": "Palazzetti: leer la estufa"
+      },
+      "description": {
+        "en": "State, temperatures, setpoint, power and fan of a stove, for the next actions.",
+        "fr": "État, températures, consigne, puissance et ventilation d’un poêle, pour les actions suivantes.",
+        "de": "Zustand, Temperaturen, Soll, Leistung und Gebläse eines Ofens für die nächsten Aktionen.",
+        "es": "Estado, temperaturas, consigna, potencia y ventilador de una estufa, para las siguientes acciones."
+      },
+      "timeout_seconds": 40,
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for the first stove.",
+            "fr": "Laissez vide pour le premier poêle.",
+            "de": "Leer lassen für den ersten Ofen.",
+            "es": "Déjela vacía para la primera estufa."
+          },
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "key": "stove_name",
+          "type": "string",
+          "label": {
+            "en": "Stove name",
+            "fr": "Nom du poêle",
+            "de": "Name des Ofens",
+            "es": "Nombre de la estufa"
+          }
+        },
+        {
+          "key": "on",
+          "type": "boolean",
+          "label": {
+            "en": "On",
+            "fr": "Allumé",
+            "de": "Eingeschaltet",
+            "es": "Encendida"
+          }
+        },
+        {
+          "key": "heating",
+          "type": "boolean",
+          "label": {
+            "en": "Producing heat",
+            "fr": "En chauffe",
+            "de": "Heizt gerade",
+            "es": "Calentando"
+          }
+        },
+        {
+          "key": "phase",
+          "type": "string",
+          "label": {
+            "en": "State (code)",
+            "fr": "État (code)",
+            "de": "Zustand (Code)",
+            "es": "Estado (código)"
+          }
+        },
+        {
+          "key": "status_label",
+          "type": "string",
+          "label": {
+            "en": "Detailed status",
+            "fr": "État détaillé",
+            "de": "Detaillierter Status",
+            "es": "Estado detallado"
+          }
+        },
+        {
+          "key": "alarm",
+          "type": "boolean",
+          "label": {
+            "en": "In alarm",
+            "fr": "En alarme",
+            "de": "Im Alarm",
+            "es": "En alarma"
+          }
+        },
+        {
+          "key": "alarm_label",
+          "type": "string",
+          "label": {
+            "en": "Alarm",
+            "fr": "Alarme",
+            "de": "Alarm",
+            "es": "Alarma"
+          }
+        },
+        {
+          "key": "temperature",
+          "type": "number",
+          "label": {
+            "en": "Temperature (°C)",
+            "fr": "Température (°C)",
+            "de": "Temperatur (°C)",
+            "es": "Temperatura (°C)"
+          }
+        },
+        {
+          "key": "setpoint",
+          "type": "number",
+          "label": {
+            "en": "Setpoint (°C)",
+            "fr": "Consigne (°C)",
+            "de": "Solltemperatur (°C)",
+            "es": "Consigna (°C)"
+          }
+        },
+        {
+          "key": "power_level",
+          "type": "number",
+          "label": {
+            "en": "Power level",
+            "fr": "Puissance",
+            "de": "Leistungsstufe",
+            "es": "Potencia"
+          }
+        },
+        {
+          "key": "fan",
+          "type": "string",
+          "label": {
+            "en": "Fan",
+            "fr": "Ventilation",
+            "de": "Gebläse",
+            "es": "Ventilador"
+          }
+        },
+        {
+          "key": "flue_gas_temperature",
+          "type": "number",
+          "label": {
+            "en": "Flue gas (°C)",
+            "fr": "Fumées (°C)",
+            "de": "Abgas (°C)",
+            "es": "Humos (°C)"
+          }
+        },
+        {
+          "key": "pellets_consumed",
+          "type": "number",
+          "label": {
+            "en": "Pellets burnt (kg)",
+            "fr": "Pellets consommés (kg)",
+            "de": "Verbrannte Pellets (kg)",
+            "es": "Pellets consumidos (kg)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein Satz, bereit für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "control",
+      "label": {
+        "en": "Palazzetti: set the stove",
+        "fr": "Palazzetti : régler le poêle",
+        "de": "Palazzetti: Ofen einstellen",
+        "es": "Palazzetti: ajustar la estufa"
+      },
+      "description": {
+        "en": "Switch on or off, setpoint, power and fan in one action. Empty fields are left as they are.",
+        "fr": "Allumer ou éteindre, consigne, puissance et ventilation en une action. Les champs vides ne changent rien.",
+        "de": "Ein/Aus, Soll, Leistung und Gebläse in einer Aktion. Leere Felder bleiben unverändert.",
+        "es": "Encender o apagar, consigna, potencia y ventilador en una acción. Los campos vacíos no cambian nada."
+      },
+      "timeout_seconds": 60,
+      "fields": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for the first stove.",
+            "fr": "Laissez vide pour le premier poêle.",
+            "de": "Leer lassen für den ersten Ofen.",
+            "es": "Déjela vacía para la primera estufa."
+          },
+          "required": false
+        },
+        {
+          "key": "power",
+          "type": "select",
+          "label": {
+            "en": "On / off",
+            "fr": "Marche / arrêt",
+            "de": "Ein / Aus",
+            "es": "Encendido / apagado"
+          },
+          "options": [
+            {
+              "value": "unchanged",
+              "label": {
+                "en": "Unchanged",
+                "fr": "Inchangé",
+                "de": "Unverändert",
+                "es": "Sin cambios"
+              }
+            },
+            {
+              "value": "on",
+              "label": {
+                "en": "Turn on",
+                "fr": "Allumer",
+                "de": "Einschalten",
+                "es": "Encender"
+              }
+            },
+            {
+              "value": "off",
+              "label": {
+                "en": "Turn off",
+                "fr": "Éteindre",
+                "de": "Ausschalten",
+                "es": "Apagar"
+              }
+            }
+          ],
+          "default": "unchanged",
+          "required": false
+        },
+        {
+          "key": "setpoint",
+          "type": "number",
+          "label": {
+            "en": "Setpoint (°C)",
+            "fr": "Consigne (°C)",
+            "de": "Solltemperatur (°C)",
+            "es": "Consigna (°C)"
+          },
+          "description": {
+            "en": "Rounded to the degree and kept within the range of the stove.",
+            "fr": "Arrondie au degré et bornée à la plage du poêle.",
+            "de": "Auf ganze Grad gerundet und auf den Bereich des Ofens begrenzt.",
+            "es": "Redondeada al grado y limitada al rango de la estufa."
+          },
+          "min": 5,
+          "max": 50,
+          "required": false
+        },
+        {
+          "key": "power_level",
+          "type": "select",
+          "label": {
+            "en": "Power level",
+            "fr": "Puissance",
+            "de": "Leistungsstufe",
+            "es": "Potencia"
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": {
+                "en": "Power 1",
+                "fr": "Puissance 1",
+                "de": "Stufe 1",
+                "es": "Potencia 1"
+              }
+            },
+            {
+              "value": "2",
+              "label": {
+                "en": "Power 2",
+                "fr": "Puissance 2",
+                "de": "Stufe 2",
+                "es": "Potencia 2"
+              }
+            },
+            {
+              "value": "3",
+              "label": {
+                "en": "Power 3",
+                "fr": "Puissance 3",
+                "de": "Stufe 3",
+                "es": "Potencia 3"
+              }
+            },
+            {
+              "value": "4",
+              "label": {
+                "en": "Power 4",
+                "fr": "Puissance 4",
+                "de": "Stufe 4",
+                "es": "Potencia 4"
+              }
+            },
+            {
+              "value": "5",
+              "label": {
+                "en": "Power 5",
+                "fr": "Puissance 5",
+                "de": "Stufe 5",
+                "es": "Potencia 5"
+              }
+            }
+          ],
+          "required": false
+        },
+        {
+          "key": "fan",
+          "type": "select",
+          "label": {
+            "en": "Room fan",
+            "fr": "Ventilation",
+            "de": "Raumgebläse",
+            "es": "Ventilador"
+          },
+          "description": {
+            "en": "Values the stove does not offer are refused.",
+            "fr": "Les valeurs que le poêle ne propose pas sont refusées.",
+            "de": "Werte, die der Ofen nicht anbietet, werden abgelehnt.",
+            "es": "Los valores que la estufa no ofrece se rechazan."
+          },
+          "options": [
+            {
+              "value": "off",
+              "label": {
+                "en": "Off",
+                "fr": "Arrêt",
+                "de": "Aus",
+                "es": "Apagado"
+              }
+            },
+            {
+              "value": "1",
+              "label": {
+                "en": "Speed 1",
+                "fr": "Vitesse 1",
+                "de": "Stufe 1",
+                "es": "Velocidad 1"
+              }
+            },
+            {
+              "value": "2",
+              "label": {
+                "en": "Speed 2",
+                "fr": "Vitesse 2",
+                "de": "Stufe 2",
+                "es": "Velocidad 2"
+              }
+            },
+            {
+              "value": "3",
+              "label": {
+                "en": "Speed 3",
+                "fr": "Vitesse 3",
+                "de": "Stufe 3",
+                "es": "Velocidad 3"
+              }
+            },
+            {
+              "value": "4",
+              "label": {
+                "en": "Speed 4",
+                "fr": "Vitesse 4",
+                "de": "Stufe 4",
+                "es": "Velocidad 4"
+              }
+            },
+            {
+              "value": "5",
+              "label": {
+                "en": "Speed 5",
+                "fr": "Vitesse 5",
+                "de": "Stufe 5",
+                "es": "Velocidad 5"
+              }
+            },
+            {
+              "value": "high",
+              "label": {
+                "en": "High",
+                "fr": "Maximum",
+                "de": "Maximal",
+                "es": "Máximo"
+              }
+            },
+            {
+              "value": "auto",
+              "label": {
+                "en": "Auto",
+                "fr": "Auto",
+                "de": "Auto",
+                "es": "Auto"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "key": "changed",
+          "type": "boolean",
+          "label": {
+            "en": "Something was sent",
+            "fr": "Une commande a été envoyée",
+            "de": "Ein Befehl wurde gesendet",
+            "es": "Se envió un comando"
+          }
+        },
+        {
+          "key": "phase",
+          "type": "string",
+          "label": {
+            "en": "State (code)",
+            "fr": "État (code)",
+            "de": "Zustand (Code)",
+            "es": "Estado (código)"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein Satz, bereit für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "key": "stove",
+      "label": {
+        "en": "Palazzetti stove",
+        "fr": "Poêle Palazzetti",
+        "de": "Palazzetti-Ofen",
+        "es": "Estufa Palazzetti"
+      },
+      "description": {
+        "en": "Temperature, setpoint, state and on/off, setpoint and power buttons.",
+        "fr": "Température, consigne, état, et boutons marche/arrêt, consigne et puissance.",
+        "de": "Temperatur, Soll, Zustand sowie Tasten für Ein/Aus, Soll und Leistung.",
+        "es": "Temperatura, consigna, estado y botones de encendido, consigna y potencia."
+      },
+      "icon": "thermometer",
+      "settings": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for the first stove.",
+            "fr": "Laissez vide pour le premier poêle.",
+            "de": "Leer lassen für den ersten Ofen.",
+            "es": "Déjelo vacío para la primera estufa."
+          },
+          "required": false
+        },
+        {
+          "key": "show_chart",
+          "type": "boolean",
+          "label": {
+            "en": "Temperature curve",
+            "fr": "Courbe de température",
+            "de": "Temperaturkurve",
+            "es": "Curva de temperatura"
+          },
+          "description": {
+            "en": "The last 24 hours. Without it, the power level gets a tile.",
+            "fr": "Les dernières 24 heures. Sans elle, la puissance s’affiche en tuile.",
+            "de": "Die letzten 24 Stunden. Ohne sie erhält die Leistungsstufe eine Kachel.",
+            "es": "Las últimas 24 horas. Sin ella, la potencia se muestra en un mosaico."
+          },
+          "default": true,
+          "required": false
+        }
+      ]
+    },
+    {
+      "key": "consumption",
+      "label": {
+        "en": "Pellet consumption",
+        "fr": "Consommation de pellets",
+        "de": "Pelletverbrauch",
+        "es": "Consumo de pellets"
+      },
+      "description": {
+        "en": "Pellets burnt per day, bags per week, ignitions and heating hours.",
+        "fr": "Pellets consommés par jour, sacs par semaine, allumages et heures de chauffe.",
+        "de": "Pelletverbrauch pro Tag, Säcke pro Woche, Zündungen und Heizstunden.",
+        "es": "Pellets consumidos por día, sacos por semana, encendidos y horas de calefacción."
+      },
+      "icon": "bar-chart-2",
+      "settings": [
+        {
+          "key": "stove",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Stove",
+            "fr": "Poêle",
+            "de": "Ofen",
+            "es": "Estufa"
+          },
+          "description": {
+            "en": "Leave empty for the first stove.",
+            "fr": "Laissez vide pour le premier poêle.",
+            "de": "Leer lassen für den ersten Ofen.",
+            "es": "Déjela vacía para la primera estufa."
+          },
+          "required": false
+        },
+        {
+          "key": "days",
+          "type": "number",
+          "label": {
+            "en": "Days shown",
+            "fr": "Jours affichés",
+            "de": "Angezeigte Tage",
+            "es": "Días mostrados"
+          },
+          "min": 7,
+          "max": 60,
+          "default": 14,
+          "required": false
+        }
+      ]
+    }
+  ]
+}

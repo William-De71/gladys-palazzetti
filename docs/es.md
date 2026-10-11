@@ -1,0 +1,105 @@
+# Integración Palazzetti
+
+Controle su estufa de pellets **Palazzetti** desde Gladys, en local, mediante su **Connection Box**: encendido y apagado, consigna, potencia, ventiladores, temperaturas, alarmas y consumo de pellets. No necesita ninguna cuenta ni la nube de Palazzetti.
+
+> Integración comunitaria, no afiliada a Palazzetti Lelio S.p.A. ni respaldada por ella. «Palazzetti» y su logotipo son marcas de su propietario.
+
+## Requisitos
+
+- Una estufa Palazzetti (o de otra marca con la misma placa Fumis) equipada con una **Connection Box** conectada a su red por Wi-Fi o Ethernet. Un módulo **WPalaControl** también funciona.
+- La Connection Box debe ser accesible desde la máquina donde se ejecuta Gladys (misma red local).
+- Recomendado: asigne a la Connection Box una **dirección IP fija** en su router. La integración la vuelve a encontrar sola si su dirección cambia, pero con unos minutos de retraso.
+
+## Configuración
+
+### 1. Descubrir la estufa
+
+Vaya a **Integraciones → Palazzetti → Descubrir** e inicie una búsqueda. Gladys envía la solicitud de descubrimiento de las Connection Box en su red (UDP, puerto 54549): cada estufa que responde aparece con su nombre (el elegido en la aplicación Palazzetti). Haga clic en **Añadir**.
+
+### 2. Si no se encuentra la estufa
+
+El broadcast no siempre atraviesa la red (otra VLAN, Wi-Fi de invitados, router que lo filtra). En **Configuración**, introduzca la dirección IP de la Connection Box en **Direcciones de las Connection Box** (varias direcciones separadas por comas), guarde y vuelva a iniciar la búsqueda.
+
+La dirección IP aparece en la aplicación Palazzetti, en la lista de dispositivos de su router o, según el modelo, en la pantalla de la estufa.
+
+### 3. Intervalo de lectura
+
+La Connection Box no avisa a Gladys de ningún cambio: la integración lee cada estufa cada **30 segundos** por defecto (de 10 a 300). Es el retardo máximo de las escenas. Un valor muy bajo carga inútilmente el enlace serie entre la caja y la estufa.
+
+El botón **Probar la conexión** busca las cajas y muestra el estado de cada estufa.
+
+## El dispositivo estufa
+
+Las funciones dependen de lo que sepa hacer su modelo:
+
+| Función                                                        | Descripción                                                                 |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Encendido / apagado                                            | Enciende o apaga la estufa (modo del termostato: Apagado / Calefacción)     |
+| Consigna                                                       | Temperatura deseada, en grados enteros, dentro del rango de la estufa       |
+| Calefacción                                                    | La estufa produce calor (encendido o combustión)                            |
+| Temperatura ambiente                                           | La sonda con la que regula la estufa (el agua regulada en una estufa hidro) |
+| Temperaturas de humos, del agua…                               | Las demás sondas presentes                                                  |
+| Estado                                                         | En palabras: Combustión, Modo eco, Enfriamiento… o la alarma en curso       |
+| Alarma                                                         | 1 mientras la estufa está en alarma                                         |
+| Potencia                                                       | De 1 a 5                                                                    |
+| Ventilador, ventiladores izquierdo/derecho                     | Apagado, velocidades 1 a 5, Máximo, Auto, según el modelo                   |
+| Modo silencio                                                  | Apaga todos los ventiladores (modelos con varios ventiladores)              |
+| Programación semanal                                           | Activa o desactiva la programación semanal de la estufa                     |
+| Pellets consumidos (kg)                                        | Contador acumulado                                                          |
+| Nivel de pellets / Depósito vacío                              | Según el sensor del depósito del modelo                                     |
+| Encendidos, horas de calefacción, horas desde el mantenimiento | Contadores de la estufa, leídos cada 10 minutos                             |
+
+**¿Cuándo se puede encender o apagar?** Como en la aplicación Palazzetti, la estufa rechaza la orden durante un encendido, un apagado o una alarma. Gladys muestra entonces el motivo («no se puede encender ni apagar ahora (Precalentamiento)»). Una alarma se reconoce en la propia estufa.
+
+**Retardo de visualización:** la caja tarda unos diez segundos en reflejar una orden; la integración vuelve a leer la estufa 12 segundos después de cada orden.
+
+## Escenas: disparadores
+
+Cada disparador puede limitarse a una estufa (déjelo vacío para cualquiera).
+
+| Disparador                    | Cuándo                                                                                                                         | Variables                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| Cambio de estado de la estufa | La estufa pasa a un nuevo estado: Apagada, Encendiendo, Calentando, Espera eco, Apagándose, Limpieza final, Alarma (filtrable) | estado nuevo y anterior, estado detallado, temperatura, consigna, resumen |
+| Alarma                        | Aparece una alarma, filtrable por tipo: sin pellets, puerta abierta, sobrecalentamiento, tiro, limpieza de la chimenea, sonda… | texto, tipo y código de la alarma, resumen                                |
+| Fin de alarma                 | La estufa ya no está en alarma                                                                                                 | alarma anterior, nuevo estado, resumen                                    |
+| Quedan pocos pellets          | El sensor del depósito indica un nivel bajo (modelos equipados)                                                                | nivel, resumen                                                            |
+| Estufa inaccesible            | La Connection Box no ha respondido a tres lecturas seguidas                                                                    | resumen                                                                   |
+| Estufa accesible de nuevo     | Vuelve a responder                                                                                                             | estado, temperatura, resumen                                              |
+
+El **resumen** es una frase lista para enviar, por ejemplo «Salón está en alarma: Sin pellets.»
+
+Ejemplos:
+
+- _Alarma «Sin pellets» → enviar un mensaje «{{resumen}}»._
+- _Cambio de estado a «Apagada» → bajar las persianas._
+
+## Escenas: acciones
+
+- **Palazzetti: leer la estufa** — devuelve el estado, la temperatura, la consigna, la potencia, el ventilador, la temperatura de humos, los pellets consumidos y un resumen, para las acciones siguientes (condiciones, mensajes).
+- **Palazzetti: ajustar la estufa** — en una sola acción: encendido/apagado (o sin cambios), consigna, potencia y ventilador. Los campos vacíos no cambian nada. Los ajustes se envían antes del encendido, para que la estufa arranque directamente con la consigna correcta. Un valor rechazado (alarma, velocidad que el modelo no ofrece) hace fallar la acción con el motivo.
+
+Las funciones del dispositivo también sirven en la acción estándar «Controlar un dispositivo».
+
+## Widgets del panel
+
+- **Estufa Palazzetti** — temperatura ambiente y consigna en directo, curva de las últimas 24 horas, estado (alarma en rojo), ventilador, pellets y cuatro botones: Encender/Apagar (con confirmación para apagar), −1 °C, +1 °C y Potencia → siguiente. Sin la curva, la potencia se muestra en un mosaico.
+- **Consumo de pellets** — pellets consumidos hoy, media por día, total, barras de los últimos días (7 a 60), sacos de 15 kg por semana, encendidos, horas de calefacción y desde el mantenimiento. El historial diario lo calcula la integración a partir del contador de la estufa: aparece tras un primer día completo.
+
+## Acciones de la página Configuración
+
+- **Probar la conexión**: busca las cajas y lee cada estufa.
+- **Poner en hora la estufa**: ajusta el reloj de la estufa (usado por su programación) a la hora de Gladys, útil tras un corte de luz o un cambio de hora.
+
+## Solución de problemas
+
+**No se encuentra ninguna estufa.** Compruebe que la Connection Box esté encendida y en la misma red que Gladys, e introduzca su dirección IP en la configuración. Pruébela desde un navegador: `http://IP_DE_LA_CAJA/cgi-bin/sendmsg.lua?cmd=GET+STAT` debe devolver JSON.
+
+**«La estufa no responde a la caja».** La Connection Box responde pero no consigue comunicarse con la estufa: compruebe el cable entre la caja y la estufa, y que la estufa tenga corriente.
+
+**Se rechaza una orden.** La estufa no acepta encender ni apagar durante un encendido, un apagado o una alarma; los ventiladores solo aceptan las velocidades que ofrece el modelo. El mensaje mostrado indica el motivo.
+
+**Las temperaturas quedan vacías.** Una sonda a 0 se considera ausente: algunos modelos no tienen todas las sondas.
+
+**El consumo diario está vacío.** Se va llenando día a día; algunas estufas (placas de otras marcas) no comunican su contador de pellets.
+
+Los registros de la integración están en **Integraciones → Palazzetti → Registros**.
