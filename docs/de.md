@@ -4,6 +4,8 @@ Steuern Sie Ihren **Palazzetti**-Pelletofen aus Gladys, lokal über seine **Conn
 
 > Community-Integration, weder mit Palazzetti Lelio S.p.A. verbunden noch von ihr unterstützt. „Palazzetti“ und sein Logo sind Marken ihres Inhabers.
 
+![Gladys, die Integration und Ihr Ofen: Die Integration liest die Connection Box per HTTP, eine Anfrage nach der anderen, die Box leitet über eine serielle Verbindung an den Ofen weiter, die Suche läuft über die UDP-Anfrage, die Gladys sendet, und die Palazzetti-Cloud wird nie genutzt](images/overview.svg)
+
 ## Voraussetzungen
 
 - Ein Palazzetti-Ofen (oder einer anderen Marke mit derselben Fumis-Platine) mit einer **Connection Box** in Ihrem Netzwerk, per WLAN oder Ethernet. Ein **WPalaControl**-Modul funktioniert ebenfalls.
@@ -53,9 +55,13 @@ Die Funktionen hängen davon ab, was Ihr Modell kann:
 
 **Anzeigeverzögerung:** Die Box braucht etwa zehn Sekunden, um einen Befehl widerzuspiegeln; die Integration liest den Ofen 12 Sekunden nach jedem Befehl erneut.
 
+![Ein Sollwert von 21,4 °C wird gerundet und begrenzt, als SET SETP 21 gesendet, die Antwort sofort veröffentlicht und der Ofen 12 s später erneut gelesen; ein Befehl, den der Ofen ablehnen würde, wird nicht gesendet und Gladys zeigt den Grund an](images/commands.svg)
+
 ## Szenen: Auslöser
 
 Jeder Auslöser kann auf einen Ofen beschränkt werden (leer lassen für jeden).
+
+![Rund zwanzig Statuscodes in sieben Phasen: aus, Zündung, Heizen, Eco-Bereitschaft, Abschalten, Endreinigung und Alarm, mit den Phasen, in denen Ein/Aus angenommen wird](images/phases.svg)
 
 | Auslöser               | Wann                                                                                                                          | Variablen                                                                             |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |

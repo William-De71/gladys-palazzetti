@@ -4,6 +4,8 @@ Control your **Palazzetti** pellet stove from Gladys, locally, through its **Con
 
 > Community integration, not affiliated with nor endorsed by Palazzetti Lelio S.p.A. "Palazzetti" and its logo are trademarks of their owner.
 
+![Gladys, the integration and your stove: the integration reads the Connection Box over HTTP, one request at a time, the box relays to the stove over a serial link, discovery goes through the UDP probe Gladys sends, and the Palazzetti cloud is never used](images/overview.svg)
+
 ## Requirements
 
 - A Palazzetti stove (or another brand using the same Fumis board) with a **Connection Box** on your network, over Wi-Fi or Ethernet. A **WPalaControl** module works too.
@@ -53,9 +55,13 @@ The features depend on what your model can do:
 
 **Display delay:** the box takes about ten seconds to reflect a command; the integration reads the stove again 12 seconds after each order.
 
+![A setpoint of 21.4 °C is rounded and bounded, sent as SET SETP 21, its answer is published at once and the stove is read again 12 s later; a command the stove would refuse is never sent and Gladys shows why](images/commands.svg)
+
 ## Scenes: triggers
 
 Each trigger can be limited to one stove (leave empty for any).
+
+![About twenty status codes grouped into seven phases: off, ignition, heating, eco standby, shutting down, final cleaning and alarm, with the phases where on/off is accepted](images/phases.svg)
 
 | Trigger               | When                                                                                                                 | Variables                                                               |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |

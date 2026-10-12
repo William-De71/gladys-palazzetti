@@ -4,6 +4,8 @@ Pilotez votre poêle à pellets **Palazzetti** depuis Gladys, en local, grâce �
 
 > Intégration communautaire, non affiliée à Palazzetti Lelio S.p.A. ni approuvée par elle. « Palazzetti » et son logo sont des marques de leur propriétaire.
 
+![Gladys, l'intégration et votre poêle : l'intégration interroge la Connection Box en HTTP, une requête à la fois, le boîtier relaie au poêle par une liaison série, la découverte passe par la requête UDP envoyée par Gladys, et le cloud Palazzetti n'est jamais utilisé](images/overview.svg)
+
 ## Prérequis
 
 - Un poêle Palazzetti (ou d'une marque utilisant la même carte Fumis) équipé d'une **Connection Box** reliée à votre réseau en Wi-Fi ou en Ethernet. Un module **WPalaControl** fonctionne aussi.
@@ -53,9 +55,13 @@ Les fonctionnalités créées dépendent de ce que votre modèle sait faire :
 
 **Délai d'affichage :** le boîtier met une dizaine de secondes à refléter une commande ; l'intégration relit le poêle 12 secondes après chaque ordre.
 
+![Une consigne de 21,4 °C est arrondie et bornée, envoyée en SET SETP 21, la réponse est publiée tout de suite et le poêle est relu 12 s plus tard ; un ordre que le poêle refuserait n'est pas envoyé et Gladys affiche la raison](images/commands.svg)
+
 ## Scènes : déclencheurs
 
 Chaque déclencheur peut être limité à un poêle (laissez vide pour tous).
+
+![Une vingtaine de codes d'état regroupés en sept phases : éteint, allumage, en chauffe, veille éco, extinction, nettoyage final et alarme, avec les phases où la marche/arrêt est acceptée](images/phases.svg)
 
 | Déclencheur                | Quand                                                                                                                          | Variables                                                           |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- |

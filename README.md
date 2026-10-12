@@ -10,6 +10,8 @@ Installable in one click from [Gladys Assistant](https://gladysassistant.com), i
 
 Born from the Gladys community thread [Connexion poêle Palazzetti](https://community.gladysassistant.com/t/connexion-poele-palazzetti/9943).
 
+![The integration runs in its own container next to Gladys and reads the Connection Box over HTTP, one request at a time; the box relays to the stove over a serial link, discovery goes through the UDP probe Gladys sends, and the Palazzetti cloud is never used](docs/images/overview.svg)
+
 ## What it brings
 
 | Surface              | Content                                                                                                                                                                                                 |
@@ -29,6 +31,8 @@ The Connection Box answers plain HTTP on port 80: `GET /cgi-bin/sendmsg.lua?cmd=
 - **one request at a time per box** — overlapping requests make it time out or crash (WPalaControl #69, Home Assistant #140215); each box gets its own queue;
 - **an answer is a success only when `SUCCESS` is true _and_ `INFO.RSP` is `OK`** — the box answers HTTP 200 with `RSP: "TIMEOUT"` when the stove is silent;
 - **commands are absolute values** (`SET SETP 21`, never `+1`), so a request the box did not answer is safely retried once.
+
+![A setpoint of 21.4 °C is rounded and bounded, sent as SET SETP 21, its answer is published at once and the stove is read again 12 s later; a command the stove would refuse is never sent and Gladys shows why](docs/images/commands.svg)
 
 Each stove is read on a loop: `GET ALLS` every poll interval (30 s by default), `GET CNTR` every 10 minutes, `GET STDT` once a day. The box pushes nothing; the loop is what drives the scenes.
 
@@ -59,6 +63,8 @@ feature: ext:<selector>:stove:<mac>:<key>     key = mode, setpoint, room, fan-ma
 - **Statuses are grouped into phases** (off, ignition, heating, eco, cooling, cleaning, alarm) for the triggers. The periodic brazier cleaning (status 11) stays "heating", so it never fires a phase change.
 - **Capabilities follow pypalazzetti** and the official Palazzetti SDK: on/off only from the statuses the box accepts it in, no remote on/off on wood stoves, the regulated probe from `MAINTPROBE`/`UICONFIG`, `65535` = not provided, a probe at 0 = absent.
 - **Daily consumption is computed by the integration**: the stove only reports a cumulative counter, kept per day in `/data/pellets-<id>.json`. Small drops of the counter are glitches; a large one is a reset at service time.
+
+![About twenty status codes grouped into seven phases: off, ignition, heating, eco standby, shutting down, final cleaning and alarm, with the phases where on/off is accepted](docs/images/phases.svg)
 
 ## Architecture
 

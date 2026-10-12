@@ -4,6 +4,8 @@ Controle su estufa de pellets **Palazzetti** desde Gladys, en local, mediante su
 
 > Integración comunitaria, no afiliada a Palazzetti Lelio S.p.A. ni respaldada por ella. «Palazzetti» y su logotipo son marcas de su propietario.
 
+![Gladys, la integración y su estufa: la integración consulta la Connection Box por HTTP, una petición a la vez, la caja lo transmite a la estufa por un enlace serie, el descubrimiento pasa por la petición UDP que envía Gladys y la nube de Palazzetti nunca se usa](images/overview.svg)
+
 ## Requisitos
 
 - Una estufa Palazzetti (o de otra marca con la misma placa Fumis) equipada con una **Connection Box** conectada a su red por Wi-Fi o Ethernet. Un módulo **WPalaControl** también funciona.
@@ -53,9 +55,13 @@ Las funciones dependen de lo que sepa hacer su modelo:
 
 **Retardo de visualización:** la caja tarda unos diez segundos en reflejar una orden; la integración vuelve a leer la estufa 12 segundos después de cada orden.
 
+![Una consigna de 21,4 °C se redondea y se limita, se envía como SET SETP 21, la respuesta se publica enseguida y la estufa se vuelve a leer 12 s después; una orden que la estufa rechazaría no se envía y Gladys muestra el motivo](images/commands.svg)
+
 ## Escenas: disparadores
 
 Cada disparador puede limitarse a una estufa (déjelo vacío para cualquiera).
+
+![Una veintena de códigos de estado agrupados en siete fases: apagada, encendiendo, calentando, espera eco, apagándose, limpieza final y alarma, con las fases en las que se acepta encender o apagar](images/phases.svg)
 
 | Disparador                    | Cuándo                                                                                                                         | Variables                                                                 |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
