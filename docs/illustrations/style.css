@@ -1,0 +1,23 @@
+/* The page around the cards: the dashboard background and two columns of the
+   width of a Gladys dashboard column. The cards themselves use the official
+   theme and the widget styles of the Gladys front (render.sh fetches them). */
+body {
+  background: #f5f7fb;
+  padding: 24px;
+}
+
+#row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.col {
+  width: 380px;
+  flex: none;
+  padding: 0;
+}
+
+.card {
+  margin-bottom: 0;
+}
