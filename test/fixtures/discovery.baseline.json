@@ -1,0 +1,788 @@
+{
+  "generated_from": "v1.0.1",
+  "stoves": ["ginger", "julie", "hydro", "wood"],
+  "devices": [
+    {
+      "name": "Salon",
+      "external_id": "ext:ext-palazzetti:stove:ginger",
+      "should_poll": false,
+      "params": [
+        {
+          "name": "IP_ADDRESS",
+          "value": "192.168.1.40"
+        },
+        {
+          "name": "PALAZZETTI_ID",
+          "value": "ginger"
+        }
+      ],
+      "features": [
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": true,
+          "name": "On / off",
+          "external_id": "ext:ext-palazzetti:stove:ginger:mode",
+          "category": "thermostat",
+          "type": "mode",
+          "min": 0,
+          "max": 1,
+          "supported_options": [
+            {
+              "value": 0,
+              "label": "Off"
+            },
+            {
+              "value": 1,
+              "label": "Heating"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": true,
+          "name": "Setpoint",
+          "external_id": "ext:ext-palazzetti:stove:ginger:setpoint",
+          "category": "thermostat",
+          "type": "target-temperature",
+          "unit": "celsius",
+          "min": 6,
+          "max": 51,
+          "step": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Heating",
+          "external_id": "ext:ext-palazzetti:stove:ginger:operating",
+          "category": "thermostat",
+          "type": "operating-state",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 100,
+          "name": "Room temperature",
+          "external_id": "ext:ext-palazzetti:stove:ginger:room",
+          "category": "temperature-sensor",
+          "type": "decimal"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 1000,
+          "name": "Flue gas temperature",
+          "external_id": "ext:ext-palazzetti:stove:ginger:probe-t3",
+          "category": "temperature-sensor",
+          "type": "probe"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": false,
+          "name": "Status",
+          "external_id": "ext:ext-palazzetti:stove:ginger:status",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Alarm",
+          "external_id": "ext:ext-palazzetti:stove:ginger:alarm",
+          "category": "unknown",
+          "type": "binary",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": false,
+          "name": "Power level",
+          "external_id": "ext:ext-palazzetti:stove:ginger:power",
+          "category": "text",
+          "type": "select",
+          "min": 0,
+          "max": 0,
+          "supported_options": [
+            {
+              "value": "1",
+              "label": "Power 1"
+            },
+            {
+              "value": "2",
+              "label": "Power 2"
+            },
+            {
+              "value": "3",
+              "label": "Power 3"
+            },
+            {
+              "value": "4",
+              "label": "Power 4"
+            },
+            {
+              "value": "5",
+              "label": "Power 5"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": false,
+          "name": "Room fan",
+          "external_id": "ext:ext-palazzetti:stove:ginger:fan-main",
+          "category": "text",
+          "type": "select",
+          "min": 0,
+          "max": 0,
+          "supported_options": [
+            {
+              "value": "0",
+              "label": "Off"
+            },
+            {
+              "value": "1",
+              "label": "Speed 1"
+            },
+            {
+              "value": "2",
+              "label": "Speed 2"
+            },
+            {
+              "value": "3",
+              "label": "Speed 3"
+            },
+            {
+              "value": "4",
+              "label": "Speed 4"
+            },
+            {
+              "value": "5",
+              "label": "Speed 5"
+            },
+            {
+              "value": "6",
+              "label": "High"
+            },
+            {
+              "value": "7",
+              "label": "Auto"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": true,
+          "name": "Weekly schedule",
+          "external_id": "ext:ext-palazzetti:stove:ginger:chrono",
+          "category": "switch",
+          "type": "binary",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Pellets burnt (kg)",
+          "external_id": "ext:ext-palazzetti:stove:ginger:pellets",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 10000000
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Ignitions",
+          "external_id": "ext:ext-palazzetti:stove:ginger:ignitions",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 1000000
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Heating hours",
+          "external_id": "ext:ext-palazzetti:stove:ginger:heating-hours",
+          "category": "duration",
+          "type": "integer",
+          "unit": "hours",
+          "min": 0,
+          "max": 1000000
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Hours since service",
+          "external_id": "ext:ext-palazzetti:stove:ginger:service-hours",
+          "category": "duration",
+          "type": "integer",
+          "unit": "hours",
+          "min": 0,
+          "max": 1000000
+        }
+      ]
+    },
+    {
+      "name": "Séjour",
+      "external_id": "ext:ext-palazzetti:stove:julie",
+      "should_poll": false,
+      "params": [
+        {
+          "name": "IP_ADDRESS",
+          "value": "192.168.1.40"
+        },
+        {
+          "name": "PALAZZETTI_ID",
+          "value": "julie"
+        }
+      ],
+      "features": [
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": true,
+          "name": "On / off",
+          "external_id": "ext:ext-palazzetti:stove:julie:mode",
+          "category": "thermostat",
+          "type": "mode",
+          "min": 0,
+          "max": 1,
+          "supported_options": [
+            {
+              "value": 0,
+              "label": "Off"
+            },
+            {
+              "value": 1,
+              "label": "Heating"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": true,
+          "name": "Setpoint",
+          "external_id": "ext:ext-palazzetti:stove:julie:setpoint",
+          "category": "thermostat",
+          "type": "target-temperature",
+          "unit": "celsius",
+          "min": 7,
+          "max": 30,
+          "step": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Heating",
+          "external_id": "ext:ext-palazzetti:stove:julie:operating",
+          "category": "thermostat",
+          "type": "operating-state",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 100,
+          "name": "Room temperature",
+          "external_id": "ext:ext-palazzetti:stove:julie:room",
+          "category": "temperature-sensor",
+          "type": "decimal"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 1000,
+          "name": "Flue gas temperature",
+          "external_id": "ext:ext-palazzetti:stove:julie:probe-t3",
+          "category": "temperature-sensor",
+          "type": "probe"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": false,
+          "name": "Status",
+          "external_id": "ext:ext-palazzetti:stove:julie:status",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Alarm",
+          "external_id": "ext:ext-palazzetti:stove:julie:alarm",
+          "category": "unknown",
+          "type": "binary",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": false,
+          "name": "Power level",
+          "external_id": "ext:ext-palazzetti:stove:julie:power",
+          "category": "text",
+          "type": "select",
+          "min": 0,
+          "max": 0,
+          "supported_options": [
+            {
+              "value": "1",
+              "label": "Power 1"
+            },
+            {
+              "value": "2",
+              "label": "Power 2"
+            },
+            {
+              "value": "3",
+              "label": "Power 3"
+            },
+            {
+              "value": "4",
+              "label": "Power 4"
+            },
+            {
+              "value": "5",
+              "label": "Power 5"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": false,
+          "name": "Room fan",
+          "external_id": "ext:ext-palazzetti:stove:julie:fan-main",
+          "category": "text",
+          "type": "select",
+          "min": 0,
+          "max": 0,
+          "supported_options": [
+            {
+              "value": "0",
+              "label": "Off"
+            },
+            {
+              "value": "1",
+              "label": "Speed 1"
+            },
+            {
+              "value": "2",
+              "label": "Speed 2"
+            },
+            {
+              "value": "3",
+              "label": "Speed 3"
+            },
+            {
+              "value": "4",
+              "label": "Speed 4"
+            },
+            {
+              "value": "5",
+              "label": "Speed 5"
+            },
+            {
+              "value": "7",
+              "label": "Auto"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": false,
+          "name": "Left fan",
+          "external_id": "ext:ext-palazzetti:stove:julie:fan-left",
+          "category": "text",
+          "type": "select",
+          "min": 0,
+          "max": 0,
+          "supported_options": [
+            {
+              "value": "0",
+              "label": "Off"
+            },
+            {
+              "value": "1",
+              "label": "Speed 1"
+            },
+            {
+              "value": "2",
+              "label": "Speed 2"
+            },
+            {
+              "value": "3",
+              "label": "Speed 3"
+            },
+            {
+              "value": "4",
+              "label": "Speed 4"
+            },
+            {
+              "value": "5",
+              "label": "Speed 5"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": false,
+          "name": "Right fan",
+          "external_id": "ext:ext-palazzetti:stove:julie:fan-right",
+          "category": "text",
+          "type": "select",
+          "min": 0,
+          "max": 0,
+          "supported_options": [
+            {
+              "value": "0",
+              "label": "Off"
+            },
+            {
+              "value": "1",
+              "label": "Speed 1"
+            },
+            {
+              "value": "2",
+              "label": "Speed 2"
+            },
+            {
+              "value": "3",
+              "label": "Speed 3"
+            },
+            {
+              "value": "4",
+              "label": "Speed 4"
+            },
+            {
+              "value": "5",
+              "label": "Speed 5"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": false,
+          "keep_history": false,
+          "name": "Silent mode",
+          "external_id": "ext:ext-palazzetti:stove:julie:silent",
+          "category": "button",
+          "type": "push",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": true,
+          "name": "Weekly schedule",
+          "external_id": "ext:ext-palazzetti:stove:julie:chrono",
+          "category": "switch",
+          "type": "binary",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Pellets burnt (kg)",
+          "external_id": "ext:ext-palazzetti:stove:julie:pellets",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 10000000
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Hopper empty",
+          "external_id": "ext:ext-palazzetti:stove:julie:pellet-empty",
+          "category": "unknown",
+          "type": "binary",
+          "min": 0,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "name": "Chaudière",
+      "external_id": "ext:ext-palazzetti:stove:hydro",
+      "should_poll": false,
+      "params": [
+        {
+          "name": "IP_ADDRESS",
+          "value": "192.168.1.40"
+        },
+        {
+          "name": "PALAZZETTI_ID",
+          "value": "hydro"
+        }
+      ],
+      "features": [
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": true,
+          "name": "On / off",
+          "external_id": "ext:ext-palazzetti:stove:hydro:mode",
+          "category": "thermostat",
+          "type": "mode",
+          "min": 0,
+          "max": 1,
+          "supported_options": [
+            {
+              "value": 0,
+              "label": "Off"
+            },
+            {
+              "value": 1,
+              "label": "Heating"
+            }
+          ]
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": true,
+          "name": "Setpoint",
+          "external_id": "ext:ext-palazzetti:stove:hydro:setpoint",
+          "category": "thermostat",
+          "type": "target-temperature",
+          "unit": "celsius",
+          "min": 40,
+          "max": 80,
+          "step": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Heating",
+          "external_id": "ext:ext-palazzetti:stove:hydro:operating",
+          "category": "thermostat",
+          "type": "operating-state",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 100,
+          "name": "Regulated water temperature",
+          "external_id": "ext:ext-palazzetti:stove:hydro:room",
+          "category": "temperature-sensor",
+          "type": "probe"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 1000,
+          "name": "Water flow temperature",
+          "external_id": "ext:ext-palazzetti:stove:hydro:probe-t1",
+          "category": "temperature-sensor",
+          "type": "probe"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 1000,
+          "name": "Flue gas temperature",
+          "external_id": "ext:ext-palazzetti:stove:hydro:probe-t3",
+          "category": "temperature-sensor",
+          "type": "probe"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": false,
+          "name": "Status",
+          "external_id": "ext:ext-palazzetti:stove:hydro:status",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Alarm",
+          "external_id": "ext:ext-palazzetti:stove:hydro:alarm",
+          "category": "unknown",
+          "type": "binary",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": false,
+          "has_feedback": true,
+          "keep_history": false,
+          "name": "Power level",
+          "external_id": "ext:ext-palazzetti:stove:hydro:power",
+          "category": "text",
+          "type": "select",
+          "min": 0,
+          "max": 0,
+          "supported_options": [
+            {
+              "value": "1",
+              "label": "Power 1"
+            },
+            {
+              "value": "2",
+              "label": "Power 2"
+            },
+            {
+              "value": "3",
+              "label": "Power 3"
+            },
+            {
+              "value": "4",
+              "label": "Power 4"
+            },
+            {
+              "value": "5",
+              "label": "Power 5"
+            }
+          ]
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Pellet level",
+          "external_id": "ext:ext-palazzetti:stove:hydro:pellet-level",
+          "category": "level-sensor",
+          "type": "liquid-depth",
+          "unit": "cm",
+          "min": 0,
+          "max": 200
+        }
+      ]
+    },
+    {
+      "name": "Palazzetti stove",
+      "external_id": "ext:ext-palazzetti:stove:wood",
+      "should_poll": false,
+      "params": [
+        {
+          "name": "IP_ADDRESS",
+          "value": "192.168.1.40"
+        },
+        {
+          "name": "PALAZZETTI_ID",
+          "value": "wood"
+        }
+      ],
+      "features": [
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Heating",
+          "external_id": "ext:ext-palazzetti:stove:wood:operating",
+          "category": "thermostat",
+          "type": "operating-state",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 100,
+          "name": "Room temperature",
+          "external_id": "ext:ext-palazzetti:stove:wood:room",
+          "category": "temperature-sensor",
+          "type": "decimal"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "unit": "celsius",
+          "min": -20,
+          "max": 1000,
+          "name": "Flue gas temperature",
+          "external_id": "ext:ext-palazzetti:stove:wood:probe-t3",
+          "category": "temperature-sensor",
+          "type": "probe"
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": false,
+          "name": "Status",
+          "external_id": "ext:ext-palazzetti:stove:wood:status",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0
+        },
+        {
+          "read_only": true,
+          "has_feedback": false,
+          "keep_history": true,
+          "name": "Alarm",
+          "external_id": "ext:ext-palazzetti:stove:wood:alarm",
+          "category": "unknown",
+          "type": "binary",
+          "min": 0,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

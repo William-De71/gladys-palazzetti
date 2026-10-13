@@ -1,0 +1,109 @@
+{
+  "generated_from": "v1.0.1",
+  "type": "device",
+  "transports": ["local"],
+  "network_discovery": [
+    {
+      "type": "udp-active-broadcast",
+      "ports": [54549]
+    }
+  ],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "required": false
+    },
+    {
+      "key": "hosts",
+      "type": "string",
+      "required": false
+    },
+    {
+      "key": "poll_interval",
+      "type": "number",
+      "required": false,
+      "default": 30
+    }
+  ],
+  "actions": ["test_connection", "sync_clock"],
+  "widgets": [
+    {
+      "key": "stove",
+      "settings": ["stove", "show_chart"]
+    },
+    {
+      "key": "consumption",
+      "settings": ["stove", "days"]
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "phase_changed",
+      "fields": ["stove", "phase"],
+      "variables": [
+        "stove_name",
+        "phase",
+        "previous_phase",
+        "phase_label",
+        "status_label",
+        "status_code",
+        "temperature",
+        "setpoint",
+        "summary"
+      ]
+    },
+    {
+      "key": "alarm_raised",
+      "fields": ["stove", "alarm_type"],
+      "variables": ["stove_name", "alarm_label", "alarm_type", "alarm_code", "summary"]
+    },
+    {
+      "key": "alarm_cleared",
+      "fields": ["stove"],
+      "variables": ["stove_name", "alarm_label", "alarm_code", "phase", "summary"]
+    },
+    {
+      "key": "pellets_low",
+      "fields": ["stove"],
+      "variables": ["stove_name", "pellet_level", "summary"]
+    },
+    {
+      "key": "connection_lost",
+      "fields": ["stove"],
+      "variables": ["stove_name", "summary"]
+    },
+    {
+      "key": "connection_restored",
+      "fields": ["stove"],
+      "variables": ["stove_name", "phase", "temperature", "summary"]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "get_status",
+      "fields": ["stove"],
+      "outputs": [
+        "stove_name",
+        "on",
+        "heating",
+        "phase",
+        "status_label",
+        "alarm",
+        "alarm_label",
+        "temperature",
+        "setpoint",
+        "power_level",
+        "fan",
+        "flue_gas_temperature",
+        "pellets_consumed",
+        "summary"
+      ]
+    },
+    {
+      "key": "control",
+      "fields": ["stove", "power", "setpoint", "power_level", "fan"],
+      "outputs": ["changed", "phase", "summary"]
+    }
+  ]
+}
