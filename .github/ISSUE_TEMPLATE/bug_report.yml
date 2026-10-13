@@ -1,0 +1,50 @@
+name: Bug report
+description: Something does not work as described in the documentation.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem. First check that the Connection Box answers in a browser: `http://<box address>/cgi-bin/sendmsg.lua?cmd=GET+STDT`.
+  - type: input
+    id: gladys-version
+    attributes:
+      label: Gladys version
+      description: Settings → System.
+      placeholder: '5.1.4'
+    validations:
+      required: true
+  - type: input
+    id: integration-version
+    attributes:
+      label: Integration version
+      description: The Supervision tab of the integration in Gladys.
+      placeholder: '1.0.2'
+    validations:
+      required: true
+  - type: input
+    id: light-model
+    attributes:
+      label: Stove model and Connection Box firmware
+      description: The stove model, and the box firmware (`SYSTEM` in the answer of `GET STDT`).
+      placeholder: 'Palazzetti Ginger Idro, Connection Box 2.1.2'
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what you expected
+      description: A stove missing from the discovery, a state that does not change, a command refused, a widget or a scene that does not behave…
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Logs of the integration (its Supervision tab in Gladys), ideally with the SDK debug logs: add the environment variable `DEBUG=gladys-integration-sdk` to the container, reproduce, then copy the lines.
+      render: text
