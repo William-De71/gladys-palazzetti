@@ -109,13 +109,15 @@ test('the stove found by the scan is offered on the Discovery screen', async (t)
   assert.equal(gladys.fake.scans[0].port, 54549);
 });
 
-test('a device created by the user receives every state', async (t) => {
+test('a device created by the user receives every state, and the widgets refresh', async (t) => {
   const { gladys } = await start(t);
   const device = createdDevice(gladys);
   gladys.fake.devices.push(device);
   await gladys.fake.deviceCreated(device);
   await settle();
   assert.equal(gladys.fake.lastState(`${DEVICE_ID}:setpoint`), GINGER_ALLS.SETP);
+  assert.ok(gladys.fake.widgetRefreshes.includes('stove'), 'stove widget refreshed');
+  assert.ok(gladys.fake.widgetRefreshes.includes('consumption'), 'consumption widget refreshed');
 });
 
 test('a setpoint from Gladys reaches the box', async (t) => {
@@ -129,26 +131,22 @@ test('a setpoint from Gladys reaches the box', async (t) => {
   assert.ok(box.sent.includes('SET SETP 22'), box.sent.join(', '));
 });
 
-test(
-  'both widgets answer a content',
-  { todo: 'the French hint of the consumption widget is cut at 80 characters' },
-  async (t) => {
-    const { gladys } = await start(t);
-    const device = createdDevice(gladys);
-    gladys.fake.devices.push(device);
-    await gladys.fake.deviceCreated(device);
-    for (const widget of manifest.widgets) {
-      for (const language of ['en', 'fr', 'de', 'es']) {
-        const ack = await gladys.fake.widgetGet(widget.key, {
-          settings: { stove: DEVICE_ID },
-          language,
-        });
-        assert.equal(ack.success, true, `${widget.key} ${language}: ${ack.error}`);
-        assert.deepEqual(validateWidgetContent(ack.data.content), [], `${widget.key} ${language}`);
-      }
+test('both widgets answer a content the core accepts', async (t) => {
+  const { gladys } = await start(t);
+  const device = createdDevice(gladys);
+  gladys.fake.devices.push(device);
+  await gladys.fake.deviceCreated(device);
+  for (const widget of manifest.widgets) {
+    for (const language of ['en', 'fr', 'de', 'es']) {
+      const ack = await gladys.fake.widgetGet(widget.key, {
+        settings: { stove: DEVICE_ID },
+        language,
+      });
+      assert.equal(ack.success, true, `${widget.key} ${language}: ${ack.error}`);
+      assert.deepEqual(validateWidgetContent(ack.data.content), [], `${widget.key} ${language}`);
     }
-  },
-);
+  }
+});
 
 test('every scene action of the manifest is wired and returns its declared outputs only', async (t) => {
   const { gladys } = await start(t);

@@ -378,6 +378,9 @@ export function createApp(gladys, options = {}) {
     for (const entry of manager.stoves.values()) {
       await publishStates(entry);
     }
+    // A widget pointing at the new device showed "no stove" until its TTL.
+    gladys.requestWidgetRefresh(WIDGETS.STOVE);
+    gladys.requestWidgetRefresh(WIDGETS.CONSUMPTION);
   });
 
   gladys.onDeviceUpdated(refreshCreatedDevices);

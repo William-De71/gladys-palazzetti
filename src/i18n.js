@@ -346,7 +346,7 @@ export const TEXTS = {
   hours: { en: '{n} h', fr: '{n} h', de: '{n} Std.', es: '{n} h' },
   noHistory: {
     en: 'The daily consumption appears after the first full day of readings.',
-    fr: 'La consommation quotidienne apparaît après une première journée complète de relevés.',
+    fr: 'La consommation quotidienne apparaît après un premier jour complet de relevés.',
     de: 'Der Tagesverbrauch erscheint nach dem ersten vollständigen Messtag.',
     es: 'El consumo diario aparece tras el primer día completo de lecturas.',
   },

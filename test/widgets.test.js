@@ -121,13 +121,16 @@ test('the consumption widget: bars, today, per day, bags', () => {
 test('the consumption widget explains what it cannot show', () => {
   const noCounter = buildConsumptionWidget({ stove: stoves.hydro, daily: [], language: 'en' });
   assert.match(noCounter.components[0].text, /does not report/);
-  const fresh = buildConsumptionWidget({
-    stove: stoves.ginger,
-    daily: [{ day: '2026-10-11', kg: 2 }],
-    language: 'en',
-  });
-  assert.ok(fresh.components.some((component) => component.type === 'text'));
-  assert.deepEqual(validateWidgetContent(fresh), []);
+  // Every language: Gladys cuts a text past 80 characters.
+  for (const language of ['en', 'fr', 'de', 'es']) {
+    const fresh = buildConsumptionWidget({
+      stove: stoves.ginger,
+      daily: [{ day: '2026-10-11', kg: 2 }],
+      language,
+    });
+    assert.ok(fresh.components.some((component) => component.type === 'text'));
+    assert.deepEqual(validateWidgetContent(fresh), [], language);
+  }
 });
 
 test('the days setting is bounded', () => {
