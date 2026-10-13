@@ -4,7 +4,7 @@ Controle su estufa de pellets **Palazzetti** desde Gladys, en local, mediante su
 
 > Integración comunitaria, no afiliada a Palazzetti Lelio S.p.A. ni respaldada por ella. «Palazzetti» y su logotipo son marcas de su propietario.
 
-![Gladys, la integración y su estufa: la integración consulta la Connection Box por HTTP, una petición a la vez, la caja lo transmite a la estufa por un enlace serie, el descubrimiento pasa por la petición UDP que envía Gladys y la nube de Palazzetti nunca se usa](images/overview.svg)
+![Gladys, la integración y su estufa: la integración consulta la Connection Box por HTTP, una petición a la vez, la caja lo transmite a la estufa por un enlace serie, el descubrimiento pasa por la petición UDP que envía Gladys y la nube de Palazzetti nunca se usa](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/overview.svg)
 
 ## Requisitos
 
@@ -55,13 +55,13 @@ Las funciones dependen de lo que sepa hacer su modelo:
 
 **Retardo de visualización:** la caja tarda unos diez segundos en reflejar una orden; la integración vuelve a leer la estufa 12 segundos después de cada orden.
 
-![Una consigna de 21,4 °C se redondea y se limita, se envía como SET SETP 21, la respuesta se publica enseguida y la estufa se vuelve a leer 12 s después; una orden que la estufa rechazaría no se envía y Gladys muestra el motivo](images/commands.svg)
+![Una consigna de 21,4 °C se redondea y se limita, se envía como SET SETP 21, la respuesta se publica enseguida y la estufa se vuelve a leer 12 s después; una orden que la estufa rechazaría no se envía y Gladys muestra el motivo](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/commands.svg)
 
 ## Escenas: disparadores
 
 Cada disparador puede limitarse a una estufa (déjelo vacío para cualquiera).
 
-![Una veintena de códigos de estado agrupados en siete fases: apagada, encendiendo, calentando, espera eco, apagándose, limpieza final y alarma, con las fases en las que se acepta encender o apagar](images/phases.svg)
+![Una veintena de códigos de estado agrupados en siete fases: apagada, encendiendo, calentando, espera eco, apagándose, limpieza final y alarma, con las fases en las que se acepta encender o apagar](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/phases.svg)
 
 | Disparador                    | Cuándo                                                                                                                         | Variables                                                                 |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
@@ -90,6 +90,8 @@ Las funciones del dispositivo también sirven en la acción estándar «Controla
 
 - **Estufa Palazzetti** — temperatura ambiente y consigna en directo, curva de las últimas 24 horas, estado (alarma en rojo), ventilador, pellets y cuatro botones: Encender/Apagar (con confirmación para apagar), −1 °C, +1 °C y Potencia → siguiente. Sin la curva, la potencia se muestra en un mosaico.
 - **Consumo de pellets** — pellets consumidos hoy, media por día, total, barras de los últimos días (7 a 60), sacos de 15 kg por semana, encendidos, horas de calefacción y desde el mantenimiento. El historial diario lo calcula la integración a partir del contador de la estufa: aparece tras un primer día completo.
+
+![El widget «Estufa Palazzetti» (ambiente a 21,4 °C, consigna 21 °C, la curva de las últimas 24 horas, la estufa en combustión, los botones Apagar, −1 °C, +1 °C y Potencia → 4) junto al widget «Consumo de pellets» (4 kg hoy, 8,1 kg por día, las barras de los últimos 14 días, 3,8 sacos de 15 kg por semana) — ilustración generada, no una captura de pantalla](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/widgets.es.png)
 
 ## Acciones de la página Configuración
 

@@ -4,7 +4,7 @@ Steuern Sie Ihren **Palazzetti**-Pelletofen aus Gladys, lokal über seine **Conn
 
 > Community-Integration, weder mit Palazzetti Lelio S.p.A. verbunden noch von ihr unterstützt. „Palazzetti“ und sein Logo sind Marken ihres Inhabers.
 
-![Gladys, die Integration und Ihr Ofen: Die Integration liest die Connection Box per HTTP, eine Anfrage nach der anderen, die Box leitet über eine serielle Verbindung an den Ofen weiter, die Suche läuft über die UDP-Anfrage, die Gladys sendet, und die Palazzetti-Cloud wird nie genutzt](images/overview.svg)
+![Gladys, die Integration und Ihr Ofen: Die Integration liest die Connection Box per HTTP, eine Anfrage nach der anderen, die Box leitet über eine serielle Verbindung an den Ofen weiter, die Suche läuft über die UDP-Anfrage, die Gladys sendet, und die Palazzetti-Cloud wird nie genutzt](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/overview.svg)
 
 ## Voraussetzungen
 
@@ -55,13 +55,13 @@ Die Funktionen hängen davon ab, was Ihr Modell kann:
 
 **Anzeigeverzögerung:** Die Box braucht etwa zehn Sekunden, um einen Befehl widerzuspiegeln; die Integration liest den Ofen 12 Sekunden nach jedem Befehl erneut.
 
-![Ein Sollwert von 21,4 °C wird gerundet und begrenzt, als SET SETP 21 gesendet, die Antwort sofort veröffentlicht und der Ofen 12 s später erneut gelesen; ein Befehl, den der Ofen ablehnen würde, wird nicht gesendet und Gladys zeigt den Grund an](images/commands.svg)
+![Ein Sollwert von 21,4 °C wird gerundet und begrenzt, als SET SETP 21 gesendet, die Antwort sofort veröffentlicht und der Ofen 12 s später erneut gelesen; ein Befehl, den der Ofen ablehnen würde, wird nicht gesendet und Gladys zeigt den Grund an](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/commands.svg)
 
 ## Szenen: Auslöser
 
 Jeder Auslöser kann auf einen Ofen beschränkt werden (leer lassen für jeden).
 
-![Rund zwanzig Statuscodes in sieben Phasen: aus, Zündung, Heizen, Eco-Bereitschaft, Abschalten, Endreinigung und Alarm, mit den Phasen, in denen Ein/Aus angenommen wird](images/phases.svg)
+![Rund zwanzig Statuscodes in sieben Phasen: aus, Zündung, Heizen, Eco-Bereitschaft, Abschalten, Endreinigung und Alarm, mit den Phasen, in denen Ein/Aus angenommen wird](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/phases.svg)
 
 | Auslöser               | Wann                                                                                                                          | Variablen                                                                             |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
@@ -90,6 +90,8 @@ Die Funktionen des Geräts funktionieren auch in der Standardaktion „Gerät st
 
 - **Palazzetti-Ofen** — Raumtemperatur und Soll live, Kurve der letzten 24 Stunden, Zustand (Alarm in Rot), Gebläse, Pellets und vier Tasten: Ein-/Ausschalten (Ausschalten mit Bestätigung), −1 °C, +1 °C und Leistung → nächste. Ohne Kurve erhält die Leistungsstufe eine Kachel.
 - **Pelletverbrauch** — heute verbrannte Pellets, Durchschnitt pro Tag, Gesamt, Balken der letzten Tage (7 bis 60), 15-kg-Säcke pro Woche, Zündungen, Heizstunden und Stunden seit Wartung. Der Tagesverlauf wird von der Integration aus dem Zähler des Ofens berechnet: Er erscheint nach dem ersten vollständigen Tag.
+
+![Das Widget „Palazzetti-Ofen“ (Raum bei 21,4 °C, Soll 21 °C, die Kurve der letzten 24 Stunden, der Ofen in Verbrennung, die Tasten Ausschalten, −1 °C, +1 °C und Leistung → 4) neben dem Widget „Pelletverbrauch“ (heute 4 kg, 8,1 kg pro Tag, die Balken der letzten 14 Tage, 3,8 Säcke à 15 kg pro Woche) — generierte Illustration, kein Screenshot](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/widgets.de.png)
 
 ## Aktionen der Konfigurationsseite
 

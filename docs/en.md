@@ -4,7 +4,7 @@ Control your **Palazzetti** pellet stove from Gladys, locally, through its **Con
 
 > Community integration, not affiliated with nor endorsed by Palazzetti Lelio S.p.A. "Palazzetti" and its logo are trademarks of their owner.
 
-![Gladys, the integration and your stove: the integration reads the Connection Box over HTTP, one request at a time, the box relays to the stove over a serial link, discovery goes through the UDP probe Gladys sends, and the Palazzetti cloud is never used](images/overview.svg)
+![Gladys, the integration and your stove: the integration reads the Connection Box over HTTP, one request at a time, the box relays to the stove over a serial link, discovery goes through the UDP probe Gladys sends, and the Palazzetti cloud is never used](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/overview.svg)
 
 ## Requirements
 
@@ -55,13 +55,13 @@ The features depend on what your model can do:
 
 **Display delay:** the box takes about ten seconds to reflect a command; the integration reads the stove again 12 seconds after each order.
 
-![A setpoint of 21.4 °C is rounded and bounded, sent as SET SETP 21, its answer is published at once and the stove is read again 12 s later; a command the stove would refuse is never sent and Gladys shows why](images/commands.svg)
+![A setpoint of 21.4 °C is rounded and bounded, sent as SET SETP 21, its answer is published at once and the stove is read again 12 s later; a command the stove would refuse is never sent and Gladys shows why](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/commands.svg)
 
 ## Scenes: triggers
 
 Each trigger can be limited to one stove (leave empty for any).
 
-![About twenty status codes grouped into seven phases: off, ignition, heating, eco standby, shutting down, final cleaning and alarm, with the phases where on/off is accepted](images/phases.svg)
+![About twenty status codes grouped into seven phases: off, ignition, heating, eco standby, shutting down, final cleaning and alarm, with the phases where on/off is accepted](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/phases.svg)
 
 | Trigger               | When                                                                                                                 | Variables                                                               |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
@@ -90,6 +90,8 @@ The features of the device also work in the standard "Control a device" action.
 
 - **Palazzetti stove** — live room temperature and setpoint, the curve of the last 24 hours, the state (alarm in red), fan, pellets, and four buttons: Turn on/off (turning off asks for a confirmation), −1 °C, +1 °C and Power → next. Without the curve, the power level gets a tile.
 - **Pellet consumption** — pellets burnt today, average per day, total, bars of the last days (7 to 60), 15 kg bags per week, ignitions, heating hours and hours since service. The daily history is computed by the integration from the counter of the stove: it shows after a first full day.
+
+![The “Palazzetti stove” widget (room at 21.4 °C, setpoint 21 °C, the curve of the last 24 hours, the stove burning, the Turn off, −1 °C, +1 °C and Power → 4 buttons) next to the “Pellet consumption” widget (4 kg today, 8.1 kg per day, the bars of the last 14 days, 3.8 bags of 15 kg a week) — generated illustration, not a screenshot](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/widgets.en.png)
 
 ## Configuration screen actions
 

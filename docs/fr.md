@@ -4,7 +4,7 @@ Pilotez votre poêle à pellets **Palazzetti** depuis Gladys, en local, grâce �
 
 > Intégration communautaire, non affiliée à Palazzetti Lelio S.p.A. ni approuvée par elle. « Palazzetti » et son logo sont des marques de leur propriétaire.
 
-![Gladys, l'intégration et votre poêle : l'intégration interroge la Connection Box en HTTP, une requête à la fois, le boîtier relaie au poêle par une liaison série, la découverte passe par la requête UDP envoyée par Gladys, et le cloud Palazzetti n'est jamais utilisé](images/overview.svg)
+![Gladys, l'intégration et votre poêle : l'intégration interroge la Connection Box en HTTP, une requête à la fois, le boîtier relaie au poêle par une liaison série, la découverte passe par la requête UDP envoyée par Gladys, et le cloud Palazzetti n'est jamais utilisé](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/overview.svg)
 
 ## Prérequis
 
@@ -55,13 +55,13 @@ Les fonctionnalités créées dépendent de ce que votre modèle sait faire :
 
 **Délai d'affichage :** le boîtier met une dizaine de secondes à refléter une commande ; l'intégration relit le poêle 12 secondes après chaque ordre.
 
-![Une consigne de 21,4 °C est arrondie et bornée, envoyée en SET SETP 21, la réponse est publiée tout de suite et le poêle est relu 12 s plus tard ; un ordre que le poêle refuserait n'est pas envoyé et Gladys affiche la raison](images/commands.svg)
+![Une consigne de 21,4 °C est arrondie et bornée, envoyée en SET SETP 21, la réponse est publiée tout de suite et le poêle est relu 12 s plus tard ; un ordre que le poêle refuserait n'est pas envoyé et Gladys affiche la raison](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/commands.svg)
 
 ## Scènes : déclencheurs
 
 Chaque déclencheur peut être limité à un poêle (laissez vide pour tous).
 
-![Une vingtaine de codes d'état regroupés en sept phases : éteint, allumage, en chauffe, veille éco, extinction, nettoyage final et alarme, avec les phases où la marche/arrêt est acceptée](images/phases.svg)
+![Une vingtaine de codes d'état regroupés en sept phases : éteint, allumage, en chauffe, veille éco, extinction, nettoyage final et alarme, avec les phases où la marche/arrêt est acceptée](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/phases.svg)
 
 | Déclencheur                | Quand                                                                                                                          | Variables                                                           |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
@@ -90,6 +90,8 @@ Vous pouvez aussi utiliser les fonctionnalités de l'appareil dans l'action stan
 
 - **Poêle Palazzetti** — température ambiante et consigne en direct, courbe des dernières 24 heures, état (avec l'alarme en rouge), ventilation, pellets, et quatre boutons : Allumer/Éteindre (avec confirmation pour éteindre), −1 °C, +1 °C, et Puissance → suivante. Sans la courbe, la puissance s'affiche en tuile.
 - **Consommation de pellets** — pellets consommés aujourd'hui, moyenne par jour, total, histogramme des derniers jours (7 à 60), sacs de 15 kg par semaine, allumages, heures de chauffe et depuis l'entretien. L'historique quotidien est calculé par l'intégration à partir du compteur du poêle : il apparaît après une première journée complète.
+
+![Le widget « Poêle Palazzetti » (ambiance à 21,4 °C, consigne 21 °C, la courbe des dernières 24 heures, le poêle en combustion, les boutons Éteindre, −1 °C, +1 °C et Puissance → 4) à côté du widget « Consommation de pellets » (4 kg aujourd’hui, 8,1 kg par jour, l’histogramme des 14 derniers jours, 3,8 sacs de 15 kg par semaine) — illustration générée, pas une capture d’écran](https://raw.githubusercontent.com/William-De71/gladys-palazzetti/main/docs/assets/widgets.fr.png)
 
 ## Actions de la page Configuration
 
