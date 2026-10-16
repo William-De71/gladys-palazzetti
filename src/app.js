@@ -14,7 +14,14 @@ import { logger } from '@gladysassistant/integration-sdk';
 import { INTERNAL_KEYS, normalizeConfig, normalizeLanguage, readLanguage } from './config.js';
 import { createManager } from './manager.js';
 import { createHistoryStore, dailyBurn } from './history.js';
-import { PARAMS, buildDevice, buildStates, idsOf, parseExternalId } from './device.js';
+import {
+  FEATURE_KEYS,
+  PARAMS,
+  buildDevice,
+  buildStates,
+  idsOf,
+  parseExternalId,
+} from './device.js';
 import {
   CommandError,
   clockCommand,
@@ -43,6 +50,10 @@ import { LANGUAGES, all, t, stateLabel, formatTemperature } from './i18n.js';
 const ACTIONS = { TEST_CONNECTION: 'test_connection', SYNC_CLOCK: 'sync_clock' };
 // A widget or a scene action reuses a read while it is this fresh.
 const FRESH_MS = 15000;
+// The setpoint is published again this often, even unchanged: Gladys keeps a
+// point per publication and its line chart joins two points with a straight
+// slope, so a setpoint changed twice a day would draw hours-long ramps.
+const SETPOINT_REPEAT_MS = 10 * 60 * 1000;
 const DATA_DIR = process.env.DATA_DIR || '/data';
 
 /**
@@ -51,6 +62,7 @@ const DATA_DIR = process.env.DATA_DIR || '/data';
  * @param {object} [options] - Dependencies the tests replace.
  * @param {Function} [options.clientFactory] - Builds the client of a box (createClient).
  * @param {string} [options.dataDir] - Where the pellet history is stored.
+ * @param {Function} [options.now] - Date.now, for the tests.
  * @returns {object} `{ manager, history, shutdown }`.
  * @example
  * const app = createApp(new GladysIntegration());
@@ -64,7 +76,8 @@ export function createApp(gladys, options = {}) {
   let createdDevices = new Map();
   // Devices offered on the Discovery screen, by stove id.
   const discovered = new Map();
-  // Last state published per feature, to publish changes only.
+  const now = options.now ?? Date.now;
+  // Last state published per feature (`{ value, at }`), to publish changes only.
   const lastStates = new Map();
   let lastStatus = null;
 
@@ -139,7 +152,8 @@ export function createApp(gladys, options = {}) {
   }
 
   /**
-   * @description Publish the states that changed, for a created device only.
+   * @description Publish the states that changed, and the setpoint every
+   * SETPOINT_REPEAT_MS, for a created device only.
    * @param {object} entry - The manager entry.
    * @returns {Promise<void>}
    */
@@ -147,12 +161,16 @@ export function createApp(gladys, options = {}) {
     if (!createdDevices.has(entry.id) || !entry.stove) {
       return;
     }
+    const setpoint = idsOf(gladys, entry.id).feature(FEATURE_KEYS.SETPOINT);
     const changed = buildStates(gladys, entry.id, entry.stove, language).filter((state) => {
+      const id = state.device_feature_external_id;
       const value = state.text ?? state.state;
-      if (lastStates.get(state.device_feature_external_id) === value) {
+      const last = lastStates.get(id);
+      const repeat = id === setpoint && last && now() - last.at >= SETPOINT_REPEAT_MS;
+      if (last?.value === value && !repeat) {
         return false;
       }
-      lastStates.set(state.device_feature_external_id, value);
+      lastStates.set(id, { value, at: now() });
       return true;
     });
     if (changed.length > 0) {

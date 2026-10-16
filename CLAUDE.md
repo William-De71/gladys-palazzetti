@@ -78,7 +78,10 @@ docs/illustrations/           render.sh + gen.mjs + render.js: generated widget 
   An answer is a success only when `SUCCESS` is true and `INFO.RSP` is `OK`.
   Commands are absolute values (retried once safely), never relative.
 - **States**: only the ones that changed since the last publication
-  (`publishStates` in `app.js`); a device created receives every state.
+  (`publishStates` in `app.js`); a device created receives every state. One
+  exception: the setpoint is published again every 10 minutes even unchanged
+  (`SETPOINT_REPEAT_MS`), so the line chart of the `stove` widget draws it
+  flat between two changes instead of a slow ramp.
 - **Scene events** on transitions between two reads only (`events.js`), flat
   scalar data limited to the declared variables, never caused by an action:
   a command or a scene action fires nothing by itself, the next read does.

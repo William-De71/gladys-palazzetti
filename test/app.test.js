@@ -60,10 +60,10 @@ const settle = (ms = 100) => new Promise((resolve) => setTimeout(resolve, ms));
 /**
  * A connected fake Gladys running the integration, its box found by the scan.
  * @param {object} t - The test context: the app stops when the test ends.
- * @param {object} [options] - `devices` the user created.
+ * @param {object} [options] - `devices` the user created, `now` the clock.
  * @returns {Promise<object>} `{ gladys, box, app }`.
  */
-async function start(t, { devices = [] } = {}) {
+async function start(t, { devices = [], now } = {}) {
   const dataDir = mkdtempSync(join(tmpdir(), 'palazzetti-'));
   const gladys = createFakeGladys({
     selector: 'ext-palazzetti',
@@ -81,7 +81,7 @@ async function start(t, { devices = [] } = {}) {
     },
   });
   const box = new FakeBox();
-  const app = createApp(gladys, { clientFactory: box.factory(), dataDir });
+  const app = createApp(gladys, { clientFactory: box.factory(), dataDir, now });
   await gladys.connect();
   await settle();
   t.after(async () => {
@@ -118,6 +118,28 @@ test('a device created by the user receives every state, and the widgets refresh
   assert.equal(gladys.fake.lastState(`${DEVICE_ID}:setpoint`), GINGER_ALLS.SETP);
   assert.ok(gladys.fake.widgetRefreshes.includes('stove'), 'stove widget refreshed');
   assert.ok(gladys.fake.widgetRefreshes.includes('consumption'), 'consumption widget refreshed');
+});
+
+test('the setpoint is published again every 10 minutes, the other states on change only', async (t) => {
+  let clock = Date.now();
+  const { gladys, app } = await start(t, { now: () => clock });
+  const device = createdDevice(gladys);
+  gladys.fake.devices.push(device);
+  await gladys.fake.deviceCreated(device);
+  await settle();
+  const count = (feature) =>
+    gladys.fake.states.filter(
+      (state) => state.device_feature_external_id === `${DEVICE_ID}:${feature}`,
+    ).length;
+  const before = { setpoint: count('setpoint'), power: count('power') };
+  clock += 9 * 60 * 1000;
+  await app.manager.round();
+  assert.equal(count('setpoint'), before.setpoint, 'nothing before 10 minutes');
+  clock += 60 * 1000;
+  await app.manager.round();
+  assert.equal(count('setpoint'), before.setpoint + 1);
+  assert.equal(gladys.fake.lastState(`${DEVICE_ID}:setpoint`), GINGER_ALLS.SETP);
+  assert.equal(count('power'), before.power, 'an unchanged power is not repeated');
 });
 
 test('a setpoint from Gladys reaches the box', async (t) => {
