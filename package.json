@@ -1,6 +1,6 @@
 {
   "name": "gladys-palazzetti",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "description": "External integration to control your Palazzetti pellet stove (Connection Box) from Gladys Assistant.",
   "homepage": "https://github.com/William-De71/gladys-palazzetti",
