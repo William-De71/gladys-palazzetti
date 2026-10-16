@@ -140,6 +140,17 @@ for (let time = NOW.getTime() - 24 * HOUR; time <= NOW.getTime(); time += 30000)
   }
 }
 roomStates.push({ t: NOW.getTime(), v: stove.mainTemperature });
+// The setpoint is published on change and again every 10 minutes
+// (SETPOINT_REPEAT_MS in src/app.js), which keeps its line flat.
+const setpointStates = [];
+let lastSetpoint = null;
+for (let time = NOW.getTime() - 24 * HOUR; time <= NOW.getTime(); time += 30000) {
+  const value = setpointAt(new Date(time));
+  if (value !== lastSetpoint?.v || time - lastSetpoint.t >= 10 * 60 * 1000) {
+    lastSetpoint = { t: time, v: value };
+    setpointStates.push(lastSetpoint);
+  }
+}
 const aggregate = (states, buckets = 100) => {
   if (states.length <= buckets) return states;
   const result = [];
@@ -154,7 +165,7 @@ const aggregate = (states, buckets = 100) => {
 };
 const HISTORY = {
   [ROOM]: aggregate(roomStates),
-  [SETPOINT]: SETPOINT_CHANGES.map(([when, value]) => ({ t: when.getTime(), v: value })),
+  [SETPOINT]: aggregate(setpointStates),
 };
 
 // --- The contents, in the four languages --------------------------------------
