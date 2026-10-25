@@ -5,7 +5,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/William-De71/gladys-palazzetti?sort=semver)](https://github.com/William-De71/gladys-palazzetti/releases)
 [![CI](https://img.shields.io/github/actions/workflow/status/William-De71/gladys-palazzetti/release.yml?branch=main&label=CI)](https://github.com/William-De71/gladys-palazzetti/actions/workflows/release.yml)
-[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.1.1-2f6fb5)](https://gladysassistant.com)
+[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.3.0-2f6fb5)](https://gladysassistant.com)
 
 ![Palazzetti for Gladys Assistant](cover.jpg)
 
@@ -170,7 +170,7 @@ Examples:
 
 ## Installation
 
-1. In Gladys (5.1.1 or newer): **Integrations → Store**, search for **Palazzetti**, install.
+1. In Gladys (5.3.0 or newer): **Integrations → Store**, search for **Palazzetti**, install.
 2. **Discover → Scan**, then add your stove. Not found? Type the IP address of the Connection Box in the configuration and scan again.
 3. Add the **Palazzetti stove** and **Pellet consumption** widgets to the dashboard.
 

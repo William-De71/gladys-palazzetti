@@ -5,7 +5,7 @@
 [![Licencia: Apache-2.0](https://img.shields.io/badge/licencia-Apache--2.0-blue.svg)](LICENSE)
 [![Última versión](https://img.shields.io/github/v/release/William-De71/gladys-palazzetti?sort=semver)](https://github.com/William-De71/gladys-palazzetti/releases)
 [![CI](https://img.shields.io/github/actions/workflow/status/William-De71/gladys-palazzetti/release.yml?branch=main&label=CI)](https://github.com/William-De71/gladys-palazzetti/actions/workflows/release.yml)
-[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.1.1-2f6fb5)](https://gladysassistant.com)
+[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.3.0-2f6fb5)](https://gladysassistant.com)
 
 ![Palazzetti para Gladys Assistant](cover.jpg)
 
@@ -170,7 +170,7 @@ Ejemplos:
 
 ## Instalación
 
-1. En Gladys (5.1.1 o posterior): **Integraciones → Tienda**, busque **Palazzetti**, instale.
+1. En Gladys (5.3.0 o posterior): **Integraciones → Tienda**, busque **Palazzetti**, instale.
 2. **Descubrir → Buscar**, y luego añada su estufa. ¿No aparece? Introduzca la dirección IP de la Connection Box en la configuración y vuelva a buscar.
 3. Añada los widgets **Estufa Palazzetti** y **Consumo de pellets** al panel.
 
