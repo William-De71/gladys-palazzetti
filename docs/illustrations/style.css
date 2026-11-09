@@ -1,9 +1,25 @@
-/* The page around the cards: the dashboard background and two columns of the
+/* The page around the cards: the dashboard scene (#stage) and two columns of the
    width of a Gladys dashboard column. The cards themselves use the official
    theme and the widget styles of the Gladys front (render.sh fetches them). */
 body {
-  background: #f5f7fb;
-  padding: 24px;
+  background: #fff;
+  margin: 0;
+  padding: 8px;
+}
+
+/* the page header of the theme shares the class name of the widget header
+   slot (a CSS module class in Gladys): keep it off the widget */
+.card .header {
+  padding: 0;
+  background: none;
+  border-bottom: 0;
+}
+
+/* the dashboard scene, a margin around the cards for their shadow */
+#stage {
+  display: inline-block;
+  overflow: hidden;
+  padding: 40px 44px 56px;
 }
 
 #row {
