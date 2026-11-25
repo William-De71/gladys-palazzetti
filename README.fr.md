@@ -248,7 +248,7 @@ Le manifeste n'arrive sur `main` qu'une fois son image publiée : le store n'ann
 
 Les titres de commits et de pull requests suivent les [Conventional Commits](https://www.conventionalcommits.org/), en anglais, écrits comme la ligne du changelog que l'utilisateur lira : `feat(widgets): show the pellet level on the stove widget`.
 
-- Une branche `main` protégée refuserait le commit de version : autorisez GitHub Actions à contourner la règle (Settings → Rules → Bypass list), ou utilisez le jeton d'une GitHub App.
+- **Branche protégée** : des rulesets imposent une pull request sur `main` et verrouillent les tags `v*` ; seuls le mainteneur et les deploy keys passent. La release pousse avec la deploy key de l’environnement `release` (secret `RELEASE_DEPLOY_KEY`, `main` seulement) : un run lancé depuis une autre branche ne l’obtient jamais. `build.yml` et `github-release.yml` ne démarrent pas sur un tag : la release les appelle, ou lancez-les à la main (Actions → Run workflow, avec `version` pour l’image) pour terminer une release.
 - La vérification exige le topic `gladys-assistant-integration` sur le dépôt (**About → ⚙️ → Topics**), à côté de `gladys`, `palazzetti`, `pellet-stove`, `connection-box`, `home-automation`. La description **About** reprend la `description` du manifeste.
 
 ## Dépannage

@@ -248,7 +248,7 @@ The manifest only reaches `main` once its image exists, so the store never annou
 
 Commit and pull request titles follow [Conventional Commits](https://www.conventionalcommits.org/), in English, written as the changelog line the user will read: `feat(widgets): show the pellet level on the stove widget`.
 
-- A protected `main` would reject the release commit: allow GitHub Actions to bypass the rule (Settings → Rules → Bypass list), or use a GitHub App token.
+- **Protected branch**: rulesets require a pull request on `main` and lock the `v*` tags; only the maintainer and deploy keys get through. The release pushes with the deploy key of the `release` environment (secret `RELEASE_DEPLOY_KEY`, `main` only): a run from another branch never gets it. `build.yml` and `github-release.yml` do not start on a tag: the release calls them, or run them by hand (Actions → Run workflow, with `version` for the image) to finish a release.
 - The verification needs the `gladys-assistant-integration` topic on the repository (**About → ⚙️ → Topics**), next to `gladys`, `palazzetti`, `pellet-stove`, `connection-box`, `home-automation`. The **About** description mirrors the `description` of the manifest.
 
 ## Troubleshooting

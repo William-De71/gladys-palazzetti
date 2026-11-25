@@ -248,7 +248,7 @@ El manifiesto solo llega a `main` cuando su imagen existe: la tienda nunca anunc
 
 Los títulos de commits y pull requests siguen los [Conventional Commits](https://www.conventionalcommits.org/), en inglés, escritos como la línea del changelog que leerá el usuario: `feat(widgets): show the pellet level on the stove widget`.
 
-- Una rama `main` protegida rechazaría el commit de versión: permita que GitHub Actions omita la regla (Settings → Rules → Bypass list), o use el token de una GitHub App.
+- **Rama protegida**: unos rulesets exigen una pull request en `main` y bloquean las etiquetas `v*`; solo pasan el mantenedor y las deploy keys. La publicación hace push con la deploy key del entorno `release` (secreto `RELEASE_DEPLOY_KEY`, solo `main`): una ejecución lanzada desde otra rama nunca la obtiene. `build.yml` y `github-release.yml` no arrancan con una etiqueta: la publicación los llama, o lánzelos a mano (Actions → Run workflow, con `version` para la imagen) para terminar una publicación.
 - La verificación exige el topic `gladys-assistant-integration` en el repositorio (**About → ⚙️ → Topics**), junto a `gladys`, `palazzetti`, `pellet-stove`, `connection-box`, `home-automation`. La descripción de **About** reproduce la `description` del manifiesto.
 
 ## Resolución de problemas

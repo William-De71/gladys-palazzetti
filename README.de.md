@@ -248,7 +248,7 @@ Das Manifest erreicht `main` erst, wenn sein Image existiert: Der Store kündigt
 
 Commit- und Pull-Request-Titel folgen den [Conventional Commits](https://www.conventionalcommits.org/), auf Englisch, geschrieben als die Changelog-Zeile, die der Benutzer lesen wird: `feat(widgets): show the pellet level on the stove widget`.
 
-- Ein geschütztes `main` würde den Release-Commit ablehnen: Erlauben Sie GitHub Actions, die Regel zu umgehen (Settings → Rules → Bypass list), oder verwenden Sie das Token einer GitHub App.
+- **Geschützter Branch**: Rulesets verlangen einen Pull Request auf `main` und sperren die `v*`-Tags; nur der Maintainer und Deploy Keys kommen durch. Das Release pusht mit dem Deploy Key der Umgebung `release` (Secret `RELEASE_DEPLOY_KEY`, nur `main`): Ein Lauf von einem anderen Branch erhält ihn nie. `build.yml` und `github-release.yml` starten nicht bei einem Tag: Das Release ruft sie auf, oder starten Sie sie von Hand (Actions → Run workflow, mit `version` für das Image), um ein Release abzuschließen.
 - Die Prüfung verlangt das Topic `gladys-assistant-integration` am Repository (**About → ⚙️ → Topics**), neben `gladys`, `palazzetti`, `pellet-stove`, `connection-box`, `home-automation`. Die Beschreibung unter **About** entspricht der `description` des Manifests.
 
 ## Fehlerbehebung
